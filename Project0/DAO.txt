@@ -1,0 +1,36 @@
+Drivers
+ -Driver (contains the main method)
+
+Controllers
+ -MenuScreen (is run by the driver)
+
+Daos
+ -UserCollection (implements UserDao, collection management)
+ -USerDao (interface with abstrace methods)
+ -UserFile (implements UserDao, getting data from file)
+
+Exceptions
+ -AuthExceptions (used to authenticate user password)
+ -UserNotFoundExceptions (used to authenticate user)
+
+Models
+ -User (implements Serializable, model object contains user fields)
+
+Services
+ -AuthServices (authentication interface)
+ -AuthServicesImpl (implements AuthServices)
+ -UserServices (interface for user management)
+ -UserServiceImpl (implements UserServices)
+
+
+			  Drivers
+			     |
+			MenuScreen
+  		       /          \
+	       * UserService   * AuthService
+	            /		       \
+		UserServiceImpl	  AuthServiceImpl	
+                 /		          \	
+	      * UserDao                  * UserDao
+	      /       \	                  /      \
+           UserFile  UserCollection   UserFile   UserCollection 
