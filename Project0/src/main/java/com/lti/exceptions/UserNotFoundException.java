@@ -1,4 +1,4 @@
-package com.revature.exceptions;
+package com.lti.exceptions;
 
 public class UserNotFoundException extends Exception{
 

@@ -1,7 +1,7 @@
-package com.revature.services;
+package com.lti.services;
 
-import com.revature.exceptions.AuthException;
-import com.revature.models.User;
+import com.lti.exceptions.AuthException;
+import com.lti.models.User;
 
 public interface AuthService {
 

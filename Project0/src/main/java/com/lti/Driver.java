@@ -1,9 +1,9 @@
-package com.revature;
+package com.lti;
 
-import com.revature.controllers.MenuScreen;
-import com.revature.daos.UserDao;
-import com.revature.daos.UserFile;
-import com.revature.exceptions.UserNotFoundException;
+import com.lti.controllers.MenuScreen;
+import com.lti.daos.UserDao;
+import com.lti.daos.UserFile;
+import com.lti.exceptions.UserNotFoundException;
 
 public class Driver {
 

@@ -1,7 +1,7 @@
-package com.revature.services;
+package com.lti.services;
 
-import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.User;
+import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.User;
 
 public interface UserService {
 

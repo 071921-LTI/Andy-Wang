@@ -1,9 +1,9 @@
-package com.revature.services;
+package com.lti.services;
 
-import com.revature.daos.UserDao;
-import com.revature.daos.UserFile;
-import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.User;
+import com.lti.daos.UserDao;
+import com.lti.daos.UserFile;
+import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.User;
 
 public class UserServiceImpl implements UserService {
 
