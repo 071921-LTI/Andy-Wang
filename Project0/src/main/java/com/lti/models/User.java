@@ -2,21 +2,6 @@ package com.lti.models;
 
 import java.io.Serializable;
 
-/*
- *  POJO: Plain Old Java Object
- *  	- any Java Object, not bound to any specific restriction
- *  	- used to define an entity
- *  Java Bean:
- *  	- Special type of POJO
- *  		- All Java Beans are POJOs but not all POJOs are Java Beans
- *  	- should implement Serializable interface
- *  		- Marker interface to provide information to the compiler that the class can be serialized
- *					- serialization: process of converting an object into a stream of byte to store that object (file, db, ...)
- *		- no-args constructor
- *		- all fields need to be private
- *		- setter/getters
- *		- (override Objects methods: toString(), equals(), hashcode())
- */
 
 public class User implements Serializable{
 

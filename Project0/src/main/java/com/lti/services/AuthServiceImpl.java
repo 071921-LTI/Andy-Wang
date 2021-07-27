@@ -8,7 +8,13 @@ import com.lti.models.User;
 
 public class AuthServiceImpl implements AuthService{
 	
-	private UserDao ud = new UserFile();
+	private UserDao ud;
+	private String fileName;
+	
+	public AuthServiceImpl(String file) {
+		this.fileName = file;
+		this.ud = new UserFile(file);
+	}
 	
 	// With this implementation AuthException isn't needed
 	@Override
