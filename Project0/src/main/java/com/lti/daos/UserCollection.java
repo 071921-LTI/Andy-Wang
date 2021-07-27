@@ -1,10 +1,10 @@
-package com.revature.daos;
+package com.lti.daos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.User;
+import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.User;
 
 public class UserCollection implements UserDao{
 

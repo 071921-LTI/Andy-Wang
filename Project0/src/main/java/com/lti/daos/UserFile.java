@@ -1,4 +1,4 @@
-package com.revature.daos;
+package com.lti.daos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,8 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.User;
+import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.User;
 
 public class UserFile implements UserDao {
 

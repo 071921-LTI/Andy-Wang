@@ -1,14 +1,14 @@
-package com.revature.controllers;
+package com.lti.controllers;
 
 import java.util.Scanner;
 
-import com.revature.exceptions.AuthException;
-import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.User;
-import com.revature.services.AuthService;
-import com.revature.services.AuthServiceImpl;
-import com.revature.services.UserService;
-import com.revature.services.UserServiceImpl;
+import com.lti.exceptions.AuthException;
+import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.User;
+import com.lti.services.AuthService;
+import com.lti.services.AuthServiceImpl;
+import com.lti.services.UserService;
+import com.lti.services.UserServiceImpl;
 
 public class MenuScreen {
 	
