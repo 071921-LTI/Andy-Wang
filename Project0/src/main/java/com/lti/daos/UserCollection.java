@@ -3,6 +3,7 @@ package com.lti.daos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lti.exceptions.UserInvalidException;
 import com.lti.exceptions.UserNotFoundException;
 import com.lti.models.User;
 
@@ -29,6 +30,12 @@ public class UserCollection implements UserDao{
 	@Override
 	public boolean addUser(User user) {
 		return users.add(user);
+	}
+
+	@Override
+	public boolean findUser(String username) throws UserInvalidException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	
