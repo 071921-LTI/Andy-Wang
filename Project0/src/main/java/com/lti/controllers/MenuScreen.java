@@ -54,6 +54,11 @@ public class MenuScreen {
 
 					if(as.login(toBeChecked)) {
 						System.out.println("Successfully logged in!");
+						if (userType.equals("customers")) {
+							UserScreen.display();
+						}else {
+							EmployeeScreen.display();
+						}
 						input = "3";
 					} else {
 						System.out.println("Wrong credentials");
@@ -84,7 +89,7 @@ public class MenuScreen {
 				}
 				break;
 			case "3":
-				System.out.println("Thank you for using our shopping system!");
+				System.out.println("Thank you for using shoe shopping system!");
 				break;
 			default:
 				System.out.println("Invalid input");
