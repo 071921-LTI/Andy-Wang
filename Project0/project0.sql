@@ -22,6 +22,7 @@ create table if not exists items(
 
 drop table bidlist ;
 create table if not exists bidlist(
+--	bid_id INTEGER primary key unique
 	item_id INTEGER references items(shoe_id),
 	buyer_id INTEGER references customer(customer_id),
 	offer_price INTEGER,

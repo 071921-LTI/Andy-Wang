@@ -10,11 +10,11 @@ public class Shoes implements Serializable{
 	private int shoeType; //sandals, sneakers, slides, cleats
 	private String color; //red, blue, green, orange, black, white
 	private int price;
-	private ArrayList<User> bidList = new ArrayList<>();
-	
-	public ArrayList<User> getBidList(){
-		return this.bidList;
-	}
+//	private ArrayList<User> bidList = new ArrayList<>();
+//	
+//	public ArrayList<User> getBidList(){
+//		return this.bidList;
+//	}
 	public String getBrand() {
 		return this.brand;
 	}

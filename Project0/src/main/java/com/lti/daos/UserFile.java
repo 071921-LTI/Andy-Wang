@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import com.lti.exceptions.UserInvalidException;
 import com.lti.exceptions.UserNotFoundException;
@@ -90,5 +91,6 @@ public class UserFile implements UserDao {
 				}
 				return false;		
 	}
+
 
 }
