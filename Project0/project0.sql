@@ -1,3 +1,4 @@
+create schema project0;
 create table if not exists customer(
 	customer_name VARCHAR(30),
 	customer_password VARCHAR(30) not null,
@@ -30,3 +31,9 @@ create table if not exists bidlist(
 	payment_total INTEGER,
 	item_status VARCHAR(30)
 ); 
+
+SHOW search_path;
+SET search_path TO project0;
+select * from items;
+insert into items values ('Nike',9,'sneakers','red',10);
+select shoe_id from items;

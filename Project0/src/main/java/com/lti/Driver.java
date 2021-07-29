@@ -11,6 +11,7 @@ import com.lti.daos.UserDB;
 import com.lti.daos.UserDao;
 import com.lti.daos.UserFile;
 import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.Shoes;
 
 public class Driver {
 
@@ -18,6 +19,11 @@ public class Driver {
 		UserDao ud = new UserDB();
 		ItemsDao id = new ItemsDB();
 		MenuScreen.display();
+//		Shoes shoe = new Shoes();
+//		
+//		shoe = id.getItemById(4);
+//		System.out.println(shoe.getId() + shoe.getBrand() + shoe.getColor() + shoe.getShoeType() + shoe.getPrice() + shoe.getSize());
+//		id.getItems();
 	}
 
 }

@@ -11,6 +11,7 @@ public class UserDB implements UserDao{
 	@Override
 	public User getUser(String username) throws UserNotFoundException {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
