@@ -20,6 +20,7 @@ public class ConnectionUtil {
 		String password = prop.getProperty("password");
 		if (con == null || con.isClosed()) {
 			con = DriverManager.getConnection(url,username,password);
+			//System.out.println(con.getMetaData().getDriverName());
 			
 		}
 		

@@ -3,11 +3,14 @@ package com.lti.controllers;
 import java.util.Scanner;
 
 import com.lti.services.AuthService;
+import com.lti.services.SystemService;
+import com.lti.services.SystemServiceImp;
 import com.lti.services.UserService;
 
 public class UserScreen {
 
 	static Scanner sc = new Scanner(System.in);
+	static SystemService ss = new SystemServiceImp();
 	public static void display() {
 		String input;
 		System.out.println("\n----------------");
@@ -20,6 +23,7 @@ public class UserScreen {
 			
 			switch(input) {
 			case "1":
+				ss.displayItems();
 				input = "3";
 				break;
 			case "2":
