@@ -1,6 +1,7 @@
 package com.lti.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.lti.models.Shoes;
@@ -58,11 +59,36 @@ public class EmployeeScreen {
 					System.out.println("Enter shoe id number to show man actions: ");
 					choice = sc.nextInt();
 					shoepicked = ss.getItemById(choice);
-				}while (shoepicked != null);
+				}while (shoepicked == null);
 				System.out.println(shoepicked);
-				System.out.println("Enter 1 to show bid offers 2 to update shoe info");
+				System.out.println("Enter 1 to show bid offers 2 to update shoe info 3 to delete 4 to go back");
 				choice = sc.nextInt();
-				if (choice == 1) {
+				switch (choice) {
+					case 1:
+						List <User> cust = ss.getCustomerBids(shoepicked.getId());
+						for (User c : cust) {
+							System.out.println(shoepicked.getId()); 
+							System.out.println(c.getId());
+							System.out.println(ss.getItemStatus(shoepicked.getId(), c.getId()));
+							
+						}
+						sc.nextLine();
+						break;
+					case 2:
+						break;
+					case 3:
+						int removed = es.removeShoes(shoepicked);
+						System.out.println(removed + " item removed");
+						sc.nextLine();
+						input = "3";
+						break;
+					case 4:
+						sc.nextLine();
+						input = "3";
+						break;
+					default:
+						System.out.println("Invalid selection!");
+						break;
 				
 				}
 				

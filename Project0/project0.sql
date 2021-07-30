@@ -27,7 +27,7 @@ create table if not exists bidlist(
 	item_id INTEGER references items(shoe_id),
 	buyer_id INTEGER references customer(customer_id),
 	offer_price INTEGER,
-	bid_date DATE,
+	bid_date date,
 	payment_total INTEGER,
 	item_status VARCHAR(30)
 ); 
@@ -37,3 +37,20 @@ SET search_path TO project0;
 select * from items;
 insert into items values ('Nike',9,'sneakers','red',10);
 select shoe_id from items;
+
+insert into bidlist (item_id ,buyer_id ,offer_price , bid_date, payment_total ,item_status) values (2,1,100, current_date, 0,'pending');
+
+select c.customer_name from customer c, bidlist b 
+where c.customer_id = b.buyer_id and c.customer_id = 1;
+
+drop view BIDS;
+create view BIDS as
+select c.customer_id ,c.customer_name , b.offer_price, b.payment_total , s.shoe_brand ,s.shoe_size,s.shoe_type,s.shoe_color,s.shoe_price,s.shoe_id 
+from customer c, bidlist b, items s
+where c.customer_id = b.buyer_id and c.customer_id = 1 and s.shoe_id = b.item_id;
+
+select * from BIDS;
+
+select b.item_status,c.customer_name , b.offer_price, b.payment_total , s.shoe_brand ,s.shoe_size,s.shoe_type,s.shoe_color,s.shoe_price
+from customer c, bidlist b, items s
+where c.customer_id = b.buyer_id and c.customer_id = 1 and s.shoe_id = b.item_id;

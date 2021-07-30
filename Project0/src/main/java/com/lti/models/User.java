@@ -7,7 +7,13 @@ public class User implements Serializable{
 
 	private String username;
 	private String password;
-	
+	private int id;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -19,6 +25,11 @@ public class User implements Serializable{
 	}
 	public String getUsername() {
 		return username;
+	}
+	public User(String username, int id) {
+		super();
+		this.username = username;
+		this.id = id;
 	}
 	public void setUsername(String username) {
 		this.username = username;
@@ -33,6 +44,7 @@ public class User implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + id;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -46,6 +58,8 @@ public class User implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (id != other.id)
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -60,7 +74,7 @@ public class User implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + "]";
+		return "User [username=" + username + ", password=" + password + ", id=" + id + "]";
 	}
 	
 	public String toFileString() {

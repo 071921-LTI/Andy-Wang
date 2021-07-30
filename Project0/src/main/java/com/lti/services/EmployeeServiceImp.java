@@ -25,9 +25,9 @@ public class EmployeeServiceImp implements EmployeeService{
 	}
 
 	@Override
-	public Shoes removeShoes(Shoes item) {
+	public int removeShoes(Shoes item) {
 		// TODO Auto-generated method stub
-		return null;
+		return id.removeItem(item);
 	}
 	
 }

@@ -16,8 +16,8 @@ import com.lti.models.Shoes;
 public class Driver {
 
 	public static void main(String[] args) {
-		UserDao ud = new UserDB();
-		ItemsDao id = new ItemsDB();
+//		UserDao ud = new UserDB();
+//		ItemsDao id = new ItemsDB();
 		MenuScreen.display();
 //		Shoes shoe = new Shoes();
 //		

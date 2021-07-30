@@ -114,7 +114,7 @@ public class ItemsDB implements ItemsDao{
 			ps.setDouble(5, shoe.getPrice());
 
 			int rowschanged = ps.executeUpdate();
-
+			status = true;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
