@@ -15,5 +15,6 @@ public interface BidDao {
 	public abstract double getWeeklyPayments();
 	public abstract double totalPayments();
 	public abstract boolean setItemStatus(int shoe_id,int cust_id, String status);
+	public abstract boolean editItemBid(int shoe_id, int customer_id, double bid_price);
 
 }

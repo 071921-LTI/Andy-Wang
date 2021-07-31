@@ -56,7 +56,7 @@ public class EmployeeScreen {
 				Shoes shoepicked;
 				ss.displayItems();
 				do {
-					System.out.println("Enter shoe id number to show man actions: ");
+					System.out.println("Enter shoe id number to show more actions: ");
 					choice = sc.nextInt();
 					shoepicked = ss.getItemById(choice);
 				}while (shoepicked == null);
@@ -67,8 +67,7 @@ public class EmployeeScreen {
 					case 1:
 						List <User> cust = ss.getCustomerBids(shoepicked.getId());
 						for (User c : cust) {
-							System.out.println(shoepicked.getId()); 
-							System.out.println(c.getId());
+							System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
 							System.out.println(ss.getItemStatus(shoepicked.getId(), c.getId()));
 							
 						}

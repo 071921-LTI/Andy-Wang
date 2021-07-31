@@ -12,24 +12,6 @@ import com.lti.util.ConnectionUtil;
 
 public class BidsDB implements BidDao {
 	
-//	public BidsDB() {
-//		try (Connection con = ConnectionUtil.getConnectionFromFile()){
-//			String sql = "drop view BIDS;\r\n"
-//					+ "create view BIDS as\r\n"
-//					+ "select c.customer_id ,c.customer_name , b.offer_price, b.payment_total , s.shoe_brand ,s.shoe_size,s.shoe_type,s.shoe_color,s.shoe_price,s.shoe_id \r\n"
-//					+ "from customer c, bidlist b, items s\r\n"
-//					+ "where c.customer_id = b.buyer_id and c.customer_id = ? and s.shoe_id = b.item_id;";
-//			Statement s = con.createStatement();
-//			s.execute(sql);
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	@Override
 	public boolean updateStatus(int shoe_id, int customer_id, String status) {
 		// TODO Auto-generated method stub
@@ -94,7 +76,7 @@ public class BidsDB implements BidDao {
 		List<User> userBids = new ArrayList<>();
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select c.customer_name, c.customer_id from project0.customer c, project0.bidlist b "
-					+ "where c.customer_id = b.buyer_id and b.buyer_id = ?";
+					+ "where c.customer_id = b.buyer_id and b.item_id = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, shoe_id);
 			ResultSet rs = ps.executeQuery();
@@ -140,10 +122,10 @@ public class BidsDB implements BidDao {
 
 	@Override
 	public String showStatus(int shoe_id, int cust_id) {
-		String status = "";
+		String status = " ";
 		// TODO Auto-generated method stub
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "select b.item_status, c.customer_name , b.offer_price, b.payment_total , s.shoe_brand ,s.shoe_size,s.shoe_type,s.shoe_color,s.shoe_price\r\n"
+			String sql = "select b.item_status, c.customer_name , b.offer_price, b.payment_total , s.shoe_id,s.shoe_price\r\n"
 					+ "from project0.customer c, project0.bidlist b, project0.items s\r\n"
 					+ "where c.customer_id = b.buyer_id and c.customer_id = ? and s.shoe_id = b.item_id and s.shoe_id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -151,7 +133,9 @@ public class BidsDB implements BidDao {
 			ps.setInt(2, shoe_id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next())
-				status = rs.toString();
+				for (int i = 1; i < 7; i++) {
+					status += rs.getString(i) + "		" ;
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,12 +150,15 @@ public class BidsDB implements BidDao {
 	public boolean setItemStatus(int shoe_id, int cust_id, String status) {
 		// TODO Auto-generated method stub
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "update project.bidlist set item_status = ? where buyer_id = ? and items_id = >;";
+			String sql = "update project.bidlist set item_status = ? where buyer_id = ? and items_id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1,status);
 			ps.setInt(2, cust_id);
 			ps.setInt(3, shoe_id);
-			return true;
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,6 +179,29 @@ public class BidsDB implements BidDao {
 	public double totalPayments() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean editItemBid(int shoe_id, int cust_id, double bid_price) {
+		// TODO Auto-generated method stub
+		try(Connection con = ConnectionUtil.getConnectionFromFile()){
+			String sql = "update project0.bidlist set offer_price = ? where buyer_id = ? and item_id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setDouble(1,bid_price);
+			ps.setInt(2, cust_id);
+			ps.setInt(3, shoe_id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 
