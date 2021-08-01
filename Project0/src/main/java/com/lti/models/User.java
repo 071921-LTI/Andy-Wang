@@ -1,6 +1,8 @@
 package com.lti.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class User implements Serializable{
@@ -8,9 +10,29 @@ public class User implements Serializable{
 	private String username;
 	private String password;
 	private int id;
+	private List<BidList> bids = new ArrayList<>();
 	public int getId() {
 		return id;
 	}
+	
+	
+	public List<BidList> getBids() {
+		return bids;
+	}
+
+
+	public void addToBids(BidList bid) {
+		this.bids.add(bid);
+	}
+	
+	public void editBidStatus(int item_id,String status) {
+		for (BidList bid:bids) {
+			if (bid.getItemId() == item_id) {
+				bid.setItemStatus(status);
+			}
+		}
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}

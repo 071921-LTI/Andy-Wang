@@ -13,11 +13,6 @@ import com.lti.util.ConnectionUtil;
 
 public class BidsDB implements BidDao {
 	
-	@Override
-	public boolean updateStatus(int shoe_id, int customer_id, String status) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public int addItemBid(int buyer_id, int shoe_id, double bid_price,String item_status) {
@@ -172,18 +167,17 @@ public class BidsDB implements BidDao {
 	}
 
 	@Override
-	public boolean setItemStatus(int shoe_id, int cust_id, String status) {
+	public int setItemStatus(int shoe_id, int cust_id, String status) {
 		// TODO Auto-generated method stub
+		int rowChanged = 0;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "update project.bidlist set item_status = ? where buyer_id = ? and items_id = ?;";
+			String sql = "update project0.bidlist set item_status = ? where buyer_id = ? and item_id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1,status);
 			ps.setInt(2, cust_id);
 			ps.setInt(3, shoe_id);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				return true;
-			}
+			rowChanged = ps.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -191,7 +185,7 @@ public class BidsDB implements BidDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return rowChanged;
 	}
 	
 	@Override
@@ -207,18 +201,16 @@ public class BidsDB implements BidDao {
 	}
 
 	@Override
-	public boolean editItemBid(int shoe_id, int cust_id, double bid_price) {
+	public int editItemBid(int cust_id, int shoe_id,double bid_price) {
 		// TODO Auto-generated method stub
+		int rowchanged = 0;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "update project0.bidlist set offer_price = ? where buyer_id = ? and item_id = ?";
+			String sql = "update project0.bidlist set offer_price = ? where buyer_id = ? and item_id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setDouble(1,bid_price);
 			ps.setInt(2, cust_id);
 			ps.setInt(3, shoe_id);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				return true;
-			}
+			rowchanged = ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -226,7 +218,7 @@ public class BidsDB implements BidDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return rowchanged;
 	}
 
 	@Override
@@ -234,7 +226,7 @@ public class BidsDB implements BidDao {
 		// TODO Auto-generated method stub
 		List<BidList> allBids = new ArrayList<>();
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "select * from project0.bidlist";
+			String sql = "select * from project0.bidlist;";
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery(sql);
 			
@@ -256,7 +248,32 @@ public class BidsDB implements BidDao {
 		}
 		return allBids;
 	}
-
+	
+	@Override
+	public List<BidList> getAllBidsByUser(int cust_id){
+		List<BidList> allBids = new ArrayList<>();
+		try(Connection con = ConnectionUtil.getConnectionFromFile()){
+			String sql = "select * from project0.bidlist where buyer_id = ?;";
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) { 
+				double offer = rs.getDouble("offer_price");
+				String status = rs.getString("item_status");
+				double payment = rs.getDouble("payment_total");
+				int shoe_id = rs.getInt("item_id");
+				BidList bid = new BidList(shoe_id,cust_id,offer,payment,status);
+				allBids.add(bid);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return allBids;
+	}
 
 
 }

@@ -56,3 +56,5 @@ from customer c, bidlist b, items s
 where c.customer_id = b.buyer_id and c.customer_id = 1 and s.shoe_id = b.item_id;
 
 delete from bidlist and items where b.item_id = i.shoe_id = 1
+
+update bidlist set offer_price = 1000 where buyer_id = 1 and item_id = 2;

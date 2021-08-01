@@ -109,12 +109,46 @@ public class EmployeeScreen {
 				break;
 			case "3":
 				List<BidList> allBids = ss.getAllBids();
+				List <User> bidders;
+				int buyerId, itemId;
+				String status;
 				System.out.println("Bids\n-----");
 				for (BidList bids:allBids) {
 					System.out.println(bids);
 				}
 				System.out.println("-----");
-				input = "6";
+				System.out.println("Enter 1 to accept a bid offer or 2 to go back to menu ");
+				choice = sc.nextInt();
+				if (choice == 1) {
+					System.out.println("Enter Item Id number: ");
+					buyerId = sc.nextInt();
+					System.out.println("Enter Buyer Id number: ");
+					itemId = sc.nextInt();
+					status = ss.getItemStatus(buyerId, itemId);
+					while (status.length() <= 1) {
+						System.out.println("Bid does not exist enter correct info");
+						for (BidList bids:allBids) {
+							System.out.println(bids);
+						}
+						System.out.println("Enter Item Id number: ");
+						buyerId = sc.nextInt();
+						System.out.println("Enter Buyer Id number: ");
+						itemId = sc.nextInt();
+						status = ss.getItemStatus(buyerId, itemId);
+					}
+					
+					ss.setItemStatus(buyerId, itemId, "Accepted");
+					bidders = ss.getCustomerBids(itemId);
+					for (User bidder:bidders) {
+						if (bidder.getId() != buyerId) {
+							ss.removeItemBid(bidder.getId(), itemId);
+						}
+					}
+					System.out.println("You have accepted an offer");
+				}else {
+					sc.nextLine();
+					display();
+				}
 				break;
 			case "4":
 				input = "6";

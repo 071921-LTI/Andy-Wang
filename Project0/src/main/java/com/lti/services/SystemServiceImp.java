@@ -37,7 +37,7 @@ public class SystemServiceImp implements SystemService{
 	}
 
 	@Override
-	public boolean setItemStatus(int shoe_id,int cust_id, String status) {
+	public int setItemStatus(int shoe_id,int cust_id, String status) {
 		// TODO Auto-generated method stub
 		return bd.setItemStatus(shoe_id,cust_id, status);
 	}
@@ -67,6 +67,12 @@ public class SystemServiceImp implements SystemService{
 	public int removeItemBids(int shoe_id) {
 		// TODO Auto-generated method stub
 		return bd.removeItemBids(shoe_id);
+	}
+	@Override
+	public List<BidList> getAllBidsbyUser(int id) {
+		// TODO Auto-generated method stub
+		return bd.getAllBidsByUser(id);
+		
 	}
 
 

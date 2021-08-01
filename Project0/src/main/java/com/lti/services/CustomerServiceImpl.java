@@ -24,4 +24,10 @@ public class CustomerServiceImpl implements CustomerService{
 		return 0;
 	}
 
+	@Override
+	public int editItemBid(int shoe_id, int cust_id, double bid_price) {
+		// TODO Auto-generated method stub
+		return bd.editItemBid(shoe_id, cust_id, bid_price);
+	}
+
 }

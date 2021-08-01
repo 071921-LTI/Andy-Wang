@@ -2,6 +2,7 @@ package com.lti.controllers;
 
 import java.util.Scanner;
 
+import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
 import com.lti.services.AuthService;
@@ -53,8 +54,6 @@ public class UserScreen {
 						System.out.println("You have a bid on this item already\n**********");
 						System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
 						System.out.println(res + "\n**********");
-						sc.nextLine();
-						display();
 					}else {
 						System.out.println("Enter bid amount: ");
 						double bid = sc.nextDouble();
@@ -65,10 +64,15 @@ public class UserScreen {
 						}
 					}
 					sc.nextLine();
-					input = "3";
-					
+					display();
 					break;
 				case 2:
+					System.out.println("Enter new bid amount: ");
+					double bid = sc.nextDouble();
+					int updated = cs.editItemBid(currentUser.getId(),shoepicked.getId(), bid);
+					System.out.println(updated + " Bid edited");
+					sc.nextLine();
+					display();
 					break;
 				default:
 					break;
@@ -76,6 +80,9 @@ public class UserScreen {
 				input = "3";
 				break;
 			case "2":
+				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
+					System.out.println(bid);
+				}
 				input = "3";
 				break;
 			case "3":
