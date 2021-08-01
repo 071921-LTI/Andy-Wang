@@ -54,3 +54,5 @@ select * from BIDS;
 select b.item_status,c.customer_name , b.offer_price, b.payment_total , s.shoe_brand ,s.shoe_size,s.shoe_type,s.shoe_color,s.shoe_price
 from customer c, bidlist b, items s
 where c.customer_id = b.buyer_id and c.customer_id = 1 and s.shoe_id = b.item_id;
+
+delete from bidlist and items where b.item_id = i.shoe_id = 1

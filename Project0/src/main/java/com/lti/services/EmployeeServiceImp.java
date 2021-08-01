@@ -1,11 +1,14 @@
 package com.lti.services;
 
+import com.lti.daos.BidDao;
+import com.lti.daos.BidsDB;
 import com.lti.daos.ItemsDB;
 import com.lti.daos.ItemsDao;
 import com.lti.models.Shoes;
 
 public class EmployeeServiceImp implements EmployeeService{
 	private ItemsDao id= new ItemsDB();
+	private BidDao bd = new BidsDB();
 	@Override
 	public boolean addShoes(Shoes item) {
 		// TODO Auto-generated method stub
@@ -21,6 +24,7 @@ public class EmployeeServiceImp implements EmployeeService{
 	@Override
 	public boolean rejectOffer(Shoes item) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

@@ -8,8 +8,8 @@ import com.lti.exceptions.UserNotFoundException;
 import com.lti.models.User;
 
 public class UserServiceImpl implements UserService {
-	private String user;
-	private UserDao ud;
+	private static String user;
+	private static UserDao ud;
 
 	public UserServiceImpl(String file) {
 		this.user = file;

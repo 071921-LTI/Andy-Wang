@@ -55,7 +55,7 @@ public class BidList {
 
 	@Override
 	public String toString() {
-		return "BidList [itemId=" + itemId + ", buyerId=" + buyerId + ", offerPrice=" + offerPrice + ", paymentTotal="
+		return "[itemId=" + itemId + ", buyerId=" + buyerId + ", offerPrice=" + offerPrice + ", paymentTotal="
 				+ paymentTotal + ", itemStatus=" + itemStatus + "]";
 	}
 

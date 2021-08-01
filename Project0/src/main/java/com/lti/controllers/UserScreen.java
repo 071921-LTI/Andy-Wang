@@ -3,15 +3,25 @@ package com.lti.controllers;
 import java.util.Scanner;
 
 import com.lti.models.Shoes;
+import com.lti.models.User;
 import com.lti.services.AuthService;
+import com.lti.services.CustomerService;
+import com.lti.services.CustomerServiceImpl;
 import com.lti.services.SystemService;
 import com.lti.services.SystemServiceImp;
 import com.lti.services.UserService;
+import com.lti.services.UserServiceImpl;
 
 public class UserScreen {
 
 	static Scanner sc = new Scanner(System.in);
 	static SystemService ss = new SystemServiceImp();
+	static CustomerService cs = new CustomerServiceImpl();
+	static User currentUser;
+	
+	public static void setCurrUser(User user) {
+		currentUser = user;
+	}
 	public static void display() {
 		String input;
 		System.out.println("\n----------------");
@@ -37,6 +47,26 @@ public class UserScreen {
 				choice = sc.nextInt();
 				switch (choice) {
 				case 1:
+					String res;
+					res = ss.getItemStatus(shoepicked.getId(), currentUser.getId());
+					if (res.length() > 1) {
+						System.out.println("You have a bid on this item already\n**********");
+						System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
+						System.out.println(res + "\n**********");
+						sc.nextLine();
+						display();
+					}else {
+						System.out.println("Enter bid amount: ");
+						double bid = sc.nextDouble();
+						if(cs.makeOffer(currentUser.getId(), shoepicked.getId(), bid)) {
+							System.out.println("Bid successful");
+						}else {
+							System.out.println("Bid unsuccessful");
+						}
+					}
+					sc.nextLine();
+					input = "3";
+					
 					break;
 				case 2:
 					break;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
 import com.lti.services.CustomerService;
@@ -17,7 +18,9 @@ public class EmployeeScreen {
 	static Scanner sc = new Scanner(System.in);
 	static EmployeeService  es= new EmployeeServiceImp();
 	static SystemService ss = new SystemServiceImp();
-	static CustomerService cs = new CustomerServiceImpl();
+//	static CustomerService cs = new CustomerServiceImpl();
+	static User employee;
+	
 	public static void display() {
 		String input;
 		System.out.println("\n----------------");
@@ -61,7 +64,7 @@ public class EmployeeScreen {
 					shoepicked = ss.getItemById(choice);
 				}while (shoepicked == null);
 				System.out.println(shoepicked);
-				System.out.println("Enter 1 to show bid offers 2 to update shoe info 3 to delete 4 to go back");
+				System.out.println("Enter 1 to show bid offers, 2 to update shoe info, 3 to delete, 4 to go back");
 				choice = sc.nextInt();
 				switch (choice) {
 					case 1:
@@ -76,10 +79,22 @@ public class EmployeeScreen {
 					case 2:
 						break;
 					case 3:
-						int removed = es.removeShoes(shoepicked);
-						System.out.println(removed + " item removed");
-						sc.nextLine();
-						input = "3";
+						int removed;
+						if (ss.getCustomerBids(shoepicked.getId()).isEmpty()) {
+							removed = es.removeShoes(shoepicked);
+							System.out.println(removed + " item removed");
+						}else {
+							System.out.println("There are some offers for this item are you sure you want to delete?\nPress 1 for yes, 2 for no");
+							int confirm = sc.nextInt();
+							if (confirm == 1) {
+								removed =ss.removeItemBids(shoepicked.getId());
+								System.out.println(removed + " item removed");
+							}else {
+								sc.nextLine();
+								input = "3";
+							}
+						}
+				
 						break;
 					case 4:
 						sc.nextLine();
@@ -93,6 +108,12 @@ public class EmployeeScreen {
 				
 				break;
 			case "3":
+				List<BidList> allBids = ss.getAllBids();
+				System.out.println("Bids\n-----");
+				for (BidList bids:allBids) {
+					System.out.println(bids);
+				}
+				System.out.println("-----");
 				input = "6";
 				break;
 			case "4":

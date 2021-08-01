@@ -2,6 +2,7 @@ package com.lti.daos;
 
 import java.util.List;
 
+import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
 
@@ -16,5 +17,7 @@ public interface BidDao {
 	public abstract double totalPayments();
 	public abstract boolean setItemStatus(int shoe_id,int cust_id, String status);
 	public abstract boolean editItemBid(int shoe_id, int customer_id, double bid_price);
+	public abstract List<BidList>getAllBids();
+	public abstract int removeItemBids(int shoe_id);
 
 }

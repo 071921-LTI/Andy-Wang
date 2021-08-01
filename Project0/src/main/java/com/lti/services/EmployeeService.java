@@ -7,4 +7,5 @@ public interface EmployeeService {
 	public abstract boolean acceptOffer(Shoes item);
 	public abstract boolean rejectOffer(Shoes item);
 	public abstract int removeShoes(Shoes item);
+	
 }

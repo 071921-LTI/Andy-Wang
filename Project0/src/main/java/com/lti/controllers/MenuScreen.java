@@ -55,6 +55,7 @@ public class MenuScreen {
 					if(as.login(toBeChecked)) {
 						System.out.println("Successfully logged in!");
 						if (userType.equals("customer")) {
+							UserScreen.setCurrUser(user);
 							UserScreen.display();
 						}else {
 							EmployeeScreen.display();

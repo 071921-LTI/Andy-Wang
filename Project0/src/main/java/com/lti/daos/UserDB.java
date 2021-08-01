@@ -36,7 +36,10 @@ public class UserDB implements UserDao{
 			if(rs.next()) { 
 				String userName = rs.getString(this.name);
 				String password = rs.getString(this.pass);
-				return new User(userName,password);
+				int id = rs.getInt(this.id);
+				resUser = new User(userName,password);
+				resUser.setId(id);
+				return resUser;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
