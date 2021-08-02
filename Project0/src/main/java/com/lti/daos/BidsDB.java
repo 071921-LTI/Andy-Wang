@@ -167,7 +167,7 @@ public class BidsDB implements BidDao {
 	}
 
 	@Override
-	public int setItemStatus(int cust_id,int shoe_id,  String status) {
+	public int setItemStatus(int shoe_id, int cust_id, String status) {
 		// TODO Auto-generated method stub
 		int rowChanged = 0;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){

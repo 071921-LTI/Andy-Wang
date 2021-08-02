@@ -77,7 +77,7 @@ public class UserScreen {
 				default:
 					break;
 				}
-				input = "3";
+				input = "4";
 				break;
 			case "2":
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
@@ -86,14 +86,14 @@ public class UserScreen {
 					}
 				}
 				display();
-				input = "3";
+				input = "4";
 				break;
 			case "3":
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
 					System.out.println(bid);
 				}
 				display();
-				input = "3";
+				//input = "4";
 				break;
 			case "4":
 				System.out.println("Thank you using shoe shopping system!");
@@ -102,7 +102,7 @@ public class UserScreen {
 				System.out.println("Invalid Input");
 				break;
 			}
-		}while(!input.equals("3"));
+		}while(!input.equals("4"));
 		
 	}
 	

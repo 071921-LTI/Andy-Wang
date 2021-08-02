@@ -19,7 +19,7 @@ public class EmployeeScreen {
 	static EmployeeService  es= new EmployeeServiceImp();
 	static SystemService ss = new SystemServiceImp();
 //	static CustomerService cs = new CustomerServiceImpl();
-	static User employee;
+//	static User employee;
 	
 	public static void display() {
 		String input;
@@ -168,7 +168,7 @@ public class EmployeeScreen {
 					bidders = ss.getCustomerBids(itemId);
 					for (User bidder:bidders) {
 						if (bidder.getId() != buyerId) {
-							ss.setItemStatus(bidder.getId(), itemId,"Rejected");
+							ss.setItemStatus (itemId,bidder.getId(),"Rejected");
 						}
 					}
 					System.out.println("You have accepted an offer");
@@ -190,7 +190,7 @@ public class EmployeeScreen {
 						status = ss.getItemStatus(buyerId, itemId);
 					}
 					
-					ss.setItemStatus(buyerId, itemId, "Rejected");
+					ss.setItemStatus(itemId, buyerId, "Rejected");
 					System.out.println("You have rejected an offer");
 				}else {
 					sc.nextLine();
