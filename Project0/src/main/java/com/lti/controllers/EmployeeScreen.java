@@ -19,7 +19,7 @@ public class EmployeeScreen {
 	static EmployeeService  es= new EmployeeServiceImp();
 	static SystemService ss = new SystemServiceImp();
 //	static CustomerService cs = new CustomerServiceImpl();
-	static User employee;
+//	static User employee;
 	
 	public static void display() {
 		String input;
@@ -144,7 +144,7 @@ public class EmployeeScreen {
 					System.out.println(bids);
 				}
 				System.out.println("-----");
-				System.out.println("Enter 1 to accept a bid offer or 2 to go back to menu ");
+				System.out.println("Enter 1 to accept a bid offer, 2 to reject a bid offer, 3 go back to menu ");
 				choice = sc.nextInt();
 				if (choice == 1) {
 					System.out.println("Enter Item Id number: ");
@@ -168,14 +168,36 @@ public class EmployeeScreen {
 					bidders = ss.getCustomerBids(itemId);
 					for (User bidder:bidders) {
 						if (bidder.getId() != buyerId) {
-							ss.removeItemBid(bidder.getId(), itemId);
+							ss.setItemStatus (itemId,bidder.getId(),"Rejected");
 						}
 					}
 					System.out.println("You have accepted an offer");
+				}else if (choice == 2) {
+					System.out.println("Enter Item Id number: ");
+					buyerId = sc.nextInt();
+					System.out.println("Enter Buyer Id number: ");
+					itemId = sc.nextInt();
+					status = ss.getItemStatus(buyerId, itemId);
+					while (status.length() <= 1) {
+						System.out.println("Bid does not exist enter correct info");
+						for (BidList bids:allBids) {
+							System.out.println(bids);
+						}
+						System.out.println("Enter Item Id number: ");
+						buyerId = sc.nextInt();
+						System.out.println("Enter Buyer Id number: ");
+						itemId = sc.nextInt();
+						status = ss.getItemStatus(buyerId, itemId);
+					}
+					
+					ss.setItemStatus(itemId, buyerId, "Rejected");
+					System.out.println("You have rejected an offer");
 				}else {
 					sc.nextLine();
 					display();
 				}
+				sc.nextLine();
+				display();
 				break;
 			case "4":
 				input = "6";

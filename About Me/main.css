@@ -1,0 +1,79 @@
+html{
+    padding: 1.5%;
+    margin :0%;
+    background-image: linear-gradient(45deg,blue,red);
+    min-height:100%;
+}
+
+header{
+    text-align: center;
+    
+    background-image: linear-gradient(45deg, rgb(206, 28, 28), rgb(161, 161, 161) );
+    color: white;
+    padding: 6%;
+    border-bottom: 2px solid black;
+}
+
+body{
+    margin: auto;
+    padding: 2%px;
+    width: 720px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 1% 1% 1% 1%;
+}
+
+nav{
+    border-bottom: 2px solid black; 
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    background-color: gray;
+    overflow: hidden;
+}
+nav ul li{
+    float: left;
+    border-right: 1px solid white;
+
+}
+nav ul li:last-child{
+    float: right;
+    border-left: 1px solid white;
+    border-right: none;
+}
+nav ul li a{
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+main{
+    text-shadow: 2px 2px 5px red;
+    text-align: center;
+    color: blue;
+    padding: 0%;
+    border-bottom: 2px solid black;
+    font-size: 250%;
+}
+
+main ul {
+    text-shadow: 2px 2px 5px red;
+    list-style-type: none;
+    margin: 0px;
+    color: black;
+    padding: 10px;
+    overflow: hidden;
+    font-size: 200%;
+}
+div{
+    float: center;
+}

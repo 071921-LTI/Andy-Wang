@@ -205,7 +205,8 @@ public class BidsDB implements BidDao {
 		// TODO Auto-generated method stub
 		int rowchanged = 0;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "update project0.bidlist set offer_price = ? where buyer_id = ? and item_id = ?;";
+			String sql = "update project0.bidlist set offer_price = ?, item_status = 'Pending'"
+					+ " where buyer_id = ? and item_id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setDouble(1,bid_price);
 			ps.setInt(2, cust_id);
