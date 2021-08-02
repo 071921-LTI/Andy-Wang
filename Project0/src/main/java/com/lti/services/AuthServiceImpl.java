@@ -1,5 +1,6 @@
 package com.lti.services;
 
+import com.lti.daos.UserDB;
 import com.lti.daos.UserDao;
 import com.lti.daos.UserFile;
 import com.lti.exceptions.AuthException;
@@ -9,22 +10,22 @@ import com.lti.models.User;
 public class AuthServiceImpl implements AuthService{
 	
 	private UserDao ud;
-	private String fileName;
+	private String user;
 	
 	public AuthServiceImpl(String file) {
-		this.fileName = file;
-		this.ud = new UserFile(file);
+		this.user = file;
+		this.ud = new UserDB(file);
 	}
 	
 	// With this implementation AuthException isn't needed
 	@Override
-	public boolean login(User user) throws AuthException {
+	public boolean login(User loguser) throws AuthException {
 		/*
 		 * Compare incoming user info with user info persisted
 		 */
 		try {
-			User persistedUser = ud.getUser(user.getUsername());
-			if(persistedUser.getPassword().equals(user.getPassword())) {
+			User persistedUser = ud.getUser(loguser.getUsername());
+			if(persistedUser.getPassword().equals(loguser.getPassword())) {
 				return true;
 			} else {
 				return false;

@@ -26,9 +26,9 @@ public class MenuScreen {
 			System.out.println("Enter 1 for customer 2 for employee");
 			choice = sc.nextInt();
 			if (choice == 1) {
-				userType = "customers";
+				userType = "customer";
 			}else {
-				userType = "employees";
+				userType = "employee";
 			}
 		}while (choice > 2);
 		
@@ -54,7 +54,8 @@ public class MenuScreen {
 
 					if(as.login(toBeChecked)) {
 						System.out.println("Successfully logged in!");
-						if (userType.equals("customers")) {
+						if (userType.equals("customer")) {
+							UserScreen.setCurrUser(user);
 							UserScreen.display();
 						}else {
 							EmployeeScreen.display();

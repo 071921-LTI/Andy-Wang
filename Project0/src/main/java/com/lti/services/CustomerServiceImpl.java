@@ -1,17 +1,33 @@
 package com.lti.services;
 
-public class CustomerServiceImpl implements CustomerService{
+import com.lti.daos.BidDao;
+import com.lti.daos.BidsDB;
+import com.lti.daos.ItemsDB;
+import com.lti.daos.ItemsDao;
 
+public class CustomerServiceImpl implements CustomerService{
+	ItemsDao id = new ItemsDB();
+	BidDao bd = new BidsDB();
 	@Override
-	public boolean makeOffer(String item) {
+	public boolean makeOffer(int cust_id, int item_id, double price) {
 		// TODO Auto-generated method stub
-		return false;
+		int res = bd.addItemBid(cust_id, item_id, price, "Pending");
+		if (res == -1) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public double remainingBalance(String item) {
+	public double remainingBalance(int cust_id, int item_id) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int editItemBid(int shoe_id, int cust_id, double bid_price) {
+		// TODO Auto-generated method stub
+		return bd.editItemBid(shoe_id, cust_id, bid_price);
 	}
 
 }

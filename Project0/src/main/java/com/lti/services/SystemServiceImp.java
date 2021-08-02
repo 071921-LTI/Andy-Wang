@@ -6,7 +6,9 @@ import com.lti.daos.BidDao;
 import com.lti.daos.BidsDB;
 import com.lti.daos.ItemsDB;
 import com.lti.daos.ItemsDao;
+import com.lti.models.BidList;
 import com.lti.models.Shoes;
+import com.lti.models.User;
 
 public class SystemServiceImp implements SystemService{
 	ItemsDao id = new ItemsDB();
@@ -30,16 +32,14 @@ public class SystemServiceImp implements SystemService{
 	}
 
 	@Override
-	public String getItemStatus(int shoe_id) {
-		// TODO Auto-generated method stub
-		return "0";
-	//	return bd.showStatus(shoe_id)
+	public String getItemStatus(int shoe_id,int cust_id) {
+		return bd.showStatus(shoe_id,cust_id);
 	}
 
 	@Override
-	public void setItemStatus(String item, String status) {
+	public int setItemStatus(int shoe_id,int cust_id, String status) {
 		// TODO Auto-generated method stub
-		//sd.setItemStatus(item, status);
+		return bd.setItemStatus(shoe_id,cust_id, status);
 	}
 
 	@Override
@@ -47,6 +47,32 @@ public class SystemServiceImp implements SystemService{
 		// TODO Auto-generated method stub
 		return 0;
 		//	return sd.getWeeklyPayments();
+	}
+	@Override
+	public List<User> getCustomerBids(int shoe_id) {
+		// TODO Auto-generated method stub
+		return bd.getCustomerBids(shoe_id);
+	}
+	@Override
+	public List<BidList> getAllBids() {
+		// TODO Auto-generated method stub
+		return bd.getAllBids();
+	}
+	@Override
+	public int removeItemBid(int shoe_id, int cust_id) {
+		// TODO Auto-generated method stub
+		return bd.removeItemBid(shoe_id, cust_id);
+	}
+	@Override
+	public int removeItemBids(int shoe_id) {
+		// TODO Auto-generated method stub
+		return bd.removeItemBids(shoe_id);
+	}
+	@Override
+	public List<BidList> getAllBidsbyUser(int id) {
+		// TODO Auto-generated method stub
+		return bd.getAllBidsByUser(id);
+		
 	}
 
 
