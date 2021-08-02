@@ -30,7 +30,7 @@ public class UserScreen {
 		System.out.println("----------------");
 		do {
 			System.out.println("Enter the following number: \n1 to view products available \n2 to view owned products"
-					+ "\n3 to exit");
+					+ "\n3 view bids \n4 to exit");
 			input = sc.nextLine();
 			
 			switch(input) {
@@ -81,12 +81,21 @@ public class UserScreen {
 				break;
 			case "2":
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
-					System.out.println(bid);
+					if (bid.getItemStatus().equals("Accepted")) {
+						System.out.println(bid);
+					}
 				}
 				display();
 				input = "3";
 				break;
 			case "3":
+				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
+					System.out.println(bid);
+				}
+				display();
+				input = "3";
+				break;
+			case "4":
 				System.out.println("Thank you using shoe shopping system!");
 				break;
 			default:
