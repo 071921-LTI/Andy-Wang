@@ -112,6 +112,7 @@ public class ItemsDB implements ItemsDao{
 			ps.setString(3, shoe.getShoeType());
 			ps.setString(4, shoe.getColor());
 			ps.setDouble(5, shoe.getPrice());
+			ps.setInt(6,shoe.getId());
 
 			int rowschanged = ps.executeUpdate();
 			status = true;

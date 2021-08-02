@@ -83,6 +83,7 @@ public class UserScreen {
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
 					System.out.println(bid);
 				}
+				display();
 				input = "3";
 				break;
 			case "3":

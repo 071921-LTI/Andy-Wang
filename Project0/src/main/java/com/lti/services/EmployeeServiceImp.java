@@ -33,5 +33,11 @@ public class EmployeeServiceImp implements EmployeeService{
 		// TODO Auto-generated method stub
 		return id.removeItem(item);
 	}
+
+	@Override
+	public boolean updateShoes(Shoes item) {
+		// TODO Auto-generated method stub
+		return id.updateItem(item);
+	}
 	
 }

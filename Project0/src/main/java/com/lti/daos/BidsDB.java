@@ -254,8 +254,9 @@ public class BidsDB implements BidDao {
 		List<BidList> allBids = new ArrayList<>();
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select * from project0.bidlist where buyer_id = ?;";
-			Statement s = con.createStatement();
-			ResultSet rs = s.executeQuery(sql);
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, cust_id);
+			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) { 
 				double offer = rs.getDouble("offer_price");

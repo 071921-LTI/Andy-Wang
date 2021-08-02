@@ -77,6 +77,34 @@ public class EmployeeScreen {
 						sc.nextLine();
 						break;
 					case 2:
+						System.out.println(shoepicked);
+						System.out.println("Brand:");
+						sc.nextLine();
+						brand = sc.nextLine();
+						System.out.println("Size:");
+						size = sc.nextInt();
+						System.out.println("Type:");
+						sc.nextLine();
+						shoeType = sc.nextLine(); 
+						sc.nextLine();
+						System.out.println("Color:");
+						color = sc.nextLine();
+						System.out.println("Price:");
+						price = sc.nextDouble();
+						
+						shoepicked.setBrand(brand);
+						shoepicked.setSize(size);
+						shoepicked.setShoeType(shoeType);
+						shoepicked.setColor(color);
+						shoepicked.setPrice(price);
+						if(es.updateShoes(shoepicked)) {
+							System.out.println("Update successful");
+						}else {
+							System.out.println("Update unsuccessful");
+						}
+						sc.nextLine();
+						display();
+
 						break;
 					case 3:
 						int removed;
@@ -89,10 +117,9 @@ public class EmployeeScreen {
 							if (confirm == 1) {
 								removed =ss.removeItemBids(shoepicked.getId());
 								System.out.println(removed + " item removed");
-							}else {
+							}
 								sc.nextLine();
 								input = "3";
-							}
 						}
 				
 						break;
