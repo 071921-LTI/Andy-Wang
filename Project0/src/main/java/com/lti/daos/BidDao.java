@@ -3,7 +3,6 @@ package com.lti.daos;
 import java.util.List;
 
 import com.lti.models.BidList;
-import com.lti.models.Shoes;
 import com.lti.models.User;
 
 public interface BidDao {
@@ -19,5 +18,7 @@ public interface BidDao {
 	public abstract List<BidList>getAllBids();
 	public abstract int removeItemBids(int shoe_id);
 	public abstract List<BidList> getAllBidsByUser(int cust_id);
+	boolean makePayment(int cust_id, int shoe_id, double amount);
+	public abstract BidList findBid(int shoe_id, int cust_id);
 
 }

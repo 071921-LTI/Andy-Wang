@@ -15,7 +15,6 @@ public class SystemServiceImp implements SystemService{
 	BidDao bd = new BidsDB();
 	@Override
 	public Shoes getItemById(int shoeid) {
-		// TODO Auto-generated method stub
 		Shoes shoe = id.getItemById(shoeid);
 		return shoe;
 	}
@@ -38,41 +37,41 @@ public class SystemServiceImp implements SystemService{
 
 	@Override
 	public int setItemStatus(int shoe_id,int cust_id, String status) {
-		// TODO Auto-generated method stub
 		return bd.setItemStatus(shoe_id,cust_id, status);
 	}
 
 	@Override
 	public double getWeeklyPayments() {
-		// TODO Auto-generated method stub
-		return 0;
-		//	return sd.getWeeklyPayments();
+		return bd.getWeeklyPayments();
+	}
+	@Override
+	public double getTotalPayments() {
+		return bd.totalPayments();
 	}
 	@Override
 	public List<User> getCustomerBids(int shoe_id) {
-		// TODO Auto-generated method stub
 		return bd.getCustomerBids(shoe_id);
 	}
 	@Override
 	public List<BidList> getAllBids() {
-		// TODO Auto-generated method stub
 		return bd.getAllBids();
 	}
 	@Override
 	public int removeItemBid(int shoe_id, int cust_id) {
-		// TODO Auto-generated method stub
 		return bd.removeItemBid(shoe_id, cust_id);
 	}
 	@Override
 	public int removeItemBids(int shoe_id) {
-		// TODO Auto-generated method stub
 		return bd.removeItemBids(shoe_id);
 	}
 	@Override
 	public List<BidList> getAllBidsbyUser(int id) {
-		// TODO Auto-generated method stub
 		return bd.getAllBidsByUser(id);
 		
+	}
+	@Override
+	public BidList findBid(int shoe_id, int cust_id) {
+		return bd.findBid(shoe_id,cust_id);
 	}
 
 

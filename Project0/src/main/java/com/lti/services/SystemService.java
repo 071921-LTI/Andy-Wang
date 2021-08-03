@@ -16,6 +16,8 @@ public interface SystemService {
 	public abstract List<BidList> getAllBids();
 	public abstract int removeItemBid(int shoe_id,int cust_id); 
 	public abstract int removeItemBids(int shoe_id);
-	public abstract List<BidList> getAllBidsbyUser(int id); 
+	public abstract List<BidList> getAllBidsbyUser(int id);
+	public abstract double getTotalPayments(); 
+	public abstract BidList findBid(int shoe_id,int cust_id); 
 }
 

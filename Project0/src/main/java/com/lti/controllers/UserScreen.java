@@ -77,23 +77,52 @@ public class UserScreen {
 				default:
 					break;
 				}
-				input = "4";
 				break;
 			case "2":
+				double amount;
+				boolean payed;
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
-					if (bid.getItemStatus().equals("Accepted")) {
-						System.out.println(bid);
+					if (bid.getItemStatus().equals("Accepted") || bid.getItemStatus().equals("Payed")) {
+						System.out.println(bid + " Remaining Balance: " + (bid.getOfferPrice() - bid.getPaymentTotal()));
+						
 					}
 				}
+				
+				do {
+					System.out.println("Enter shoe id number to show more actions: ");
+					choice = sc.nextInt();
+					shoepicked = ss.getItemById(choice);
+					payed = ss.findBid(choice, currentUser.getId()).getItemStatus().equals("Payed");
+					if(payed) {
+						System.out.println("Item has been payed");
+					}
+				}while (shoepicked == null || payed == true);
+				System.out.println("Enter 1 to make payment, 2 to go back");
+				int pick = sc.nextInt();
+				if (pick == 1) {
+					System.out.println("Enter amount to pay:");
+					amount = sc.nextDouble();
+					if (cs.makePayment(currentUser.getId(), choice, amount)) {
+						System.out.println("Payment succesful");
+						if (ss.findBid(choice,currentUser.getId()).getOfferPrice() ==ss.findBid(choice,currentUser.getId()).getPaymentTotal() ) {
+							ss.setItemStatus(choice, currentUser.getId(),"Payed");
+						}
+					}else {
+						System.out.println("Payment unsuccessful");
+					}
+				}
+				sc.nextLine();
 				display();
 				input = "4";
 				break;
 			case "3":
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
-					System.out.println(bid);
+					if (!bid.getItemStatus().equals("Accepted") || !bid.getItemStatus().equals("Payed")) {
+						System.out.println(bid);
+					}
 				}
 				display();
-				//input = "4";
+				input = "4";
 				break;
 			case "4":
 				System.out.println("Thank you using shoe shopping system!");

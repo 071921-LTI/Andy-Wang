@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lti.models.BidList;
-import com.lti.models.Shoes;
 import com.lti.models.User;
 import com.lti.util.ConnectionUtil;
 
@@ -17,7 +16,6 @@ public class BidsDB implements BidDao {
 	@Override
 	public int addItemBid(int buyer_id, int shoe_id, double bid_price,String item_status) {
 		int id = -1;
-		// TODO Auto-generated method stub
 		String sql = "insert into project0.bidlist (item_id,buyer_id,offer_price,bid_date,payment_total,item_status) values (?,?,?,?,?,?) returning item_id;";
 		try (Connection con = ConnectionUtil.getConnectionFromFile()){
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -47,7 +45,6 @@ public class BidsDB implements BidDao {
 
 	@Override
 	public int removeItemBid(int shoe_id,int cust_id) {
-		// TODO Auto-generated method stub
 		String sql = "delete from project0.bidlist where item_id = ? and buyer_id = ?;"
 				+ "delete from project0.items where shoe_id = ?;";
 		int rowChanged = -1;
@@ -70,7 +67,6 @@ public class BidsDB implements BidDao {
 	
 	@Override
 	public int removeItemBids(int shoe_id) {
-		// TODO Auto-generated method stub
 		String sql = "delete from project0.bidlist where item_id = ?;"
 				+ "delete from project0.items where shoe_id = ?;";
 		int rowChanged = -1;
@@ -92,7 +88,6 @@ public class BidsDB implements BidDao {
 
 	@Override
 	public List<User> getCustomerBids(int shoe_id) {
-		// TODO Auto-generated method stub
 		List<User> userBids = new ArrayList<>();
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select c.customer_name, c.customer_id from project0.customer c, project0.bidlist b "
@@ -117,7 +112,6 @@ public class BidsDB implements BidDao {
 
 	@Override
 	public List<String> getBids(int cust_id) {
-		// TODO Auto-generated method stub
 		List<String> shoes = new ArrayList<>();
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select c.customer_id ,c.customer_name , b.offer_price, b.payment_total , s.shoe_brand ,s.shoe_size,s.shoe_type,s.shoe_color,s.shoe_price,s.shoe_id \r\n"
@@ -143,7 +137,6 @@ public class BidsDB implements BidDao {
 	@Override
 	public String showStatus(int shoe_id, int cust_id) {
 		String status = " ";
-		// TODO Auto-generated method stub
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select b.item_status, c.customer_name , b.offer_price, b.payment_total , s.shoe_id,s.shoe_price\r\n"
 					+ "from project0.customer c, project0.bidlist b, project0.items s\r\n"
@@ -168,7 +161,6 @@ public class BidsDB implements BidDao {
 
 	@Override
 	public int setItemStatus(int shoe_id, int cust_id, String status) {
-		// TODO Auto-generated method stub
 		int rowChanged = 0;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "update project0.bidlist set item_status = ? where buyer_id = ? and item_id = ?;";
@@ -190,19 +182,48 @@ public class BidsDB implements BidDao {
 	
 	@Override
 	public double getWeeklyPayments() {
-		// TODO Auto-generated method stub
-		return 0;
+		double total = 0;
+		try(Connection con = ConnectionUtil.getConnectionFromFile()){
+			String sql = "select sum(payment_total) from project0.bidlist where bid_date > current_date - 7 and item_status = 'Accepted' or item_status = 'Payed'; ";
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) { 
+				total = rs.getDouble("sum");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return total;
 	}
 
 	@Override
 	public double totalPayments() {
-		// TODO Auto-generated method stub
-		return 0;
+		double total = 0;
+		try(Connection con = ConnectionUtil.getConnectionFromFile()){
+			String sql = "select sum(payment_total) from project0.bidlist where item_status = 'Accepted' or item_status = 'Payed';";
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) { 
+				total = rs.getDouble("sum");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return total;
 	}
 
 	@Override
 	public int editItemBid(int cust_id, int shoe_id,double bid_price) {
-		// TODO Auto-generated method stub
 		int rowchanged = 0;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "update project0.bidlist set offer_price = ?, item_status = 'Pending'"
@@ -277,5 +298,53 @@ public class BidsDB implements BidDao {
 		return allBids;
 	}
 
+	@Override
+	public boolean makePayment(int cust_id, int shoe_id, double amount) {
+		boolean res = false;
+		try(Connection con = ConnectionUtil.getConnectionFromFile()){
+			String sql = "update project0.bidlist set payment_total = ?, item_status = 'Accepted'"
+					+ " where buyer_id = ? and item_id = ?;";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setDouble(1,amount);
+			ps.setInt(2, cust_id);
+			ps.setInt(3, shoe_id);
+			if (ps.executeUpdate() > 0) {
+				res = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public BidList findBid(int shoe_id, int cust_id) {
+		BidList bid = null;
+		try(Connection con = ConnectionUtil.getConnectionFromFile()){
+			String sql = "select * from project0.bidlist where buyer_id = ? and item_id = ?;";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, cust_id);
+			ps.setInt(2, shoe_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) { 
+				double offer = rs.getDouble("offer_price");
+				String status = rs.getString("item_status");
+				double payment = rs.getDouble("payment_total");
+				bid = new BidList(shoe_id,cust_id,offer,payment,status);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bid;
+	}
 
 }

@@ -7,8 +7,6 @@ import java.util.Scanner;
 import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
-import com.lti.services.CustomerService;
-import com.lti.services.CustomerServiceImpl;
 import com.lti.services.EmployeeService;
 import com.lti.services.EmployeeServiceImp;
 import com.lti.services.SystemService;
@@ -28,7 +26,7 @@ public class EmployeeScreen {
 		System.out.println("----------------");
 		do {
 			System.out.println("Enter the following number: \n1 to add item \n2 to view all items"
-					+ "\n3 to see item offers \n4 to view all payments\n5 to exit");
+					+ "\n3 to see item offers \n4 to view all payments\n5 to view all bids\n6 to exit");
 			input = sc.nextLine();
 		
 			
@@ -69,11 +67,12 @@ public class EmployeeScreen {
 				switch (choice) {
 					case 1:
 						List <User> cust = ss.getCustomerBids(shoepicked.getId());
+						System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
 						for (User c : cust) {
-							System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
 							System.out.println(ss.getItemStatus(shoepicked.getId(), c.getId()));
 							
 						}
+						System.out.println();
 						sc.nextLine();
 						break;
 					case 2:
@@ -129,6 +128,7 @@ public class EmployeeScreen {
 						break;
 					default:
 						System.out.println("Invalid selection!");
+						sc.nextLine();
 						break;
 				
 				}
@@ -136,12 +136,15 @@ public class EmployeeScreen {
 				break;
 			case "3":
 				List<BidList> allBids = ss.getAllBids();
-				List <User> bidders;
+				List <User> bidders = new ArrayList<>();
 				int buyerId, itemId;
 				String status;
 				System.out.println("Bids\n-----");
 				for (BidList bids:allBids) {
-					System.out.println(bids);
+					if (bids.getItemStatus().equals("Pending")) {
+						System.out.println(bids);
+					}
+				//	System.out.println(bids);
 				}
 				System.out.println("-----");
 				System.out.println("Enter 1 to accept a bid offer, 2 to reject a bid offer, 3 go back to menu ");
@@ -166,12 +169,16 @@ public class EmployeeScreen {
 					
 					ss.setItemStatus(buyerId, itemId, "Accepted");
 					bidders = ss.getCustomerBids(itemId);
+					
+					int res = 0; 
 					for (User bidder:bidders) {
+						System.out.println(itemId + " "+bidder.getId());
 						if (bidder.getId() != buyerId) {
-							ss.setItemStatus (itemId,bidder.getId(),"Rejected");
+							System.out.println(itemId + " "+bidder.getId());
+							res = ss.setItemStatus (bidder.getId(),itemId,"Rejected");
 						}
 					}
-					System.out.println("You have accepted an offer");
+					System.out.println("1 offer accepted and " + res + " offer rejected ");
 				}else if (choice == 2) {
 					System.out.println("Enter Item Id number: ");
 					buyerId = sc.nextInt();
@@ -189,9 +196,8 @@ public class EmployeeScreen {
 						itemId = sc.nextInt();
 						status = ss.getItemStatus(buyerId, itemId);
 					}
-					
-					ss.setItemStatus(itemId, buyerId, "Rejected");
-					System.out.println("You have rejected an offer");
+					int res = ss.setItemStatus(buyerId,itemId, "Rejected");
+					System.out.println("You have rejected " + res + " offer");
 				}else {
 					sc.nextLine();
 					display();
@@ -200,13 +206,33 @@ public class EmployeeScreen {
 				display();
 				break;
 			case "4":
+				List<BidList> bids;
+				bids = ss.getAllBids();
+				for (BidList bid:bids) {
+					if (bid.getItemStatus().equals("Accepted")||bid.getItemStatus().equals("Payed")) {
+						System.out.println("Customer ID: " + bid.getBuyerId() 
+											+ " Item ID: "+ bid.getItemId() + " Offer: " 
+											+ bid.getOfferPrice() + " Total Payed: " + bid.getPaymentTotal());
+						
+					}
+				}
+				System.out.println("Weekly Total: " + ss.getWeeklyPayments() + "     Grand Total: " + ss.getTotalPayments() + "\n");
 				input = "6";
 				break;
 			case "5":
+				allBids = ss.getAllBids();
+				System.out.println("Bids\n-----");
+				for (BidList bid:allBids) {
+					System.out.println(bid);
+				}
+				input = "6";
+				break;
+			case "6":
 				System.out.println("Thank you for using shoe shopping system!");
 				break;
 			default:
 				System.out.println("Invalid input");
+				sc.nextLine();
 				break;
 			}
 		}while(!input.equals("5"));

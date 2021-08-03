@@ -1,7 +1,5 @@
 package com.lti.daos;
 
-import java.util.List;
-
 import com.lti.exceptions.UserInvalidException;
 import com.lti.exceptions.UserNotFoundException;
 import com.lti.models.User;

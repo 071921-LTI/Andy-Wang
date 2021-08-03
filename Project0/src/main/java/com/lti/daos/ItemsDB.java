@@ -12,7 +12,6 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public Shoes getItemById(int id) {
-		// TODO Auto-generated method stub
 		Shoes shoe = null;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select * from project0.items where shoe_id = ?";
@@ -74,7 +73,6 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public boolean addItem(Shoes shoe) {
-		// TODO Auto-generated method stub
 		String sql = "insert into project0.items (shoe_brand,shoe_size,shoe_type,shoe_color,shoe_price) values (?,?,?,?,?) returning shoe_id;";
 		
 		try (Connection con = ConnectionUtil.getConnectionFromFile()){
@@ -99,10 +97,9 @@ public class ItemsDB implements ItemsDao{
 			}
 		return false;
 	}
-
 	@Override
 	public boolean updateItem(Shoes shoe) {
-		// TODO Auto-generated method stub
+		
 		boolean status = false;
 		String sql = "update project0.items set shoe_brand = ?,shoe_size= ?,shoe_type= ?,shoe_color= ?,shoe_price= ? where shoe_id = ?";
 		try (Connection con = ConnectionUtil.getConnectionFromFile()){
@@ -115,8 +112,9 @@ public class ItemsDB implements ItemsDao{
 			ps.setInt(6,shoe.getId());
 
 			int rowschanged = ps.executeUpdate();
-			status = true;
-
+			if (rowschanged > 0) {
+				status = true;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,7 +129,6 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public int removeItem(Shoes shoe) {
-		// TODO Auto-generated method stub
 		String sql = "delete from project0.items where shoe_id = ?;";
 		int rowChanged = -1;
 		
@@ -152,7 +149,6 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public List<Shoes> getShoebyCustomerId(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

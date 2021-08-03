@@ -58,3 +58,5 @@ where c.customer_id = b.buyer_id and c.customer_id = 1 and s.shoe_id = b.item_id
 delete from bidlist and items where b.item_id = i.shoe_id = 1
 update bidlist set offer_price = 1000 where buyer_id = 1 and item_id = 2;
 update project0.bidlist set item_status = 'Rejected' where buyer_id = 1 and item_id = 3;
+select sum(payment_total) from bidlist b where bid_date > current_date - 7 and item_status = 'Accepted' or item_status = 'Payed';
+select sum(offer_price) from bidlist WHERE bid_date between current_date - 6 and current_date ;
