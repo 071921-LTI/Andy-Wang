@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
@@ -16,7 +19,8 @@ public class EmployeeScreen {
 	static Scanner sc = new Scanner(System.in);
 	static EmployeeService  es= new EmployeeServiceImp();
 	static SystemService ss = new SystemServiceImp();
-//	static CustomerService cs = new CustomerServiceImpl();
+	private static Logger log = LogManager.getRootLogger();
+	//	static CustomerService cs = new CustomerServiceImpl();
 //	static User employee;
 	
 	public static void display() {
@@ -42,14 +46,13 @@ public class EmployeeScreen {
 				String shoeType = sc.nextLine(); //sandals, sneakers, slides, cleats
 				System.out.println("Color:");
 				String color = sc.nextLine(); //red, blue, green, orange, black, white
-				System.out.println("Price:");
-				double price = sc.nextDouble();
-				if(es.addShoes(new Shoes(brand,size,shoeType,color,price))) {
+				if(es.addShoes(new Shoes(brand,size,shoeType,color))) {
 					System.out.println("Item added succefully\n");
 				}else {
 					System.out.println("Item could not be added\n");
 				}
 				sc.nextLine();
+				display();
 				//System.out.println(brand + " " + size + " " + shoeType + " " +color + " " + price);
 				break;
 			case "2":
@@ -67,7 +70,7 @@ public class EmployeeScreen {
 				switch (choice) {
 					case 1:
 						List <User> cust = ss.getCustomerBids(shoepicked.getId());
-						System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
+						System.out.format("%-20s%-20s%-10s%-20s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id\n");
 						for (User c : cust) {
 							System.out.println(ss.getItemStatus(shoepicked.getId(), c.getId()));
 							
@@ -88,14 +91,11 @@ public class EmployeeScreen {
 						sc.nextLine();
 						System.out.println("Color:");
 						color = sc.nextLine();
-						System.out.println("Price:");
-						price = sc.nextDouble();
-						
+		
 						shoepicked.setBrand(brand);
 						shoepicked.setSize(size);
 						shoepicked.setShoeType(shoeType);
 						shoepicked.setColor(color);
-						shoepicked.setPrice(price);
 						if(es.updateShoes(shoepicked)) {
 							System.out.println("Update successful");
 						}else {
@@ -117,10 +117,10 @@ public class EmployeeScreen {
 								removed =ss.removeItemBids(shoepicked.getId());
 								System.out.println(removed + " item removed");
 							}
-								sc.nextLine();
-								input = "3";
 						}
-				
+						sc.nextLine();
+						display();
+						input = "3";
 						break;
 					case 4:
 						sc.nextLine();
@@ -151,9 +151,9 @@ public class EmployeeScreen {
 				choice = sc.nextInt();
 				if (choice == 1) {
 					System.out.println("Enter Item Id number: ");
-					buyerId = sc.nextInt();
-					System.out.println("Enter Buyer Id number: ");
 					itemId = sc.nextInt();
+					System.out.println("Enter Buyer Id number: ");
+					buyerId = sc.nextInt();
 					status = ss.getItemStatus(buyerId, itemId);
 					while (status.length() <= 1) {
 						System.out.println("Bid does not exist enter correct info");
@@ -161,30 +161,31 @@ public class EmployeeScreen {
 							System.out.println(bids);
 						}
 						System.out.println("Enter Item Id number: ");
-						buyerId = sc.nextInt();
-						System.out.println("Enter Buyer Id number: ");
 						itemId = sc.nextInt();
-						status = ss.getItemStatus(buyerId, itemId);
+						System.out.println("Enter Buyer Id number: ");
+						buyerId = sc.nextInt();
+						status = ss.getItemStatus(itemId,buyerId);
 					}
 					
 					ss.setItemStatus(buyerId, itemId, "Accepted");
 					bidders = ss.getCustomerBids(itemId);
 					
 					int res = 0; 
+					//System.out.println(itemId);
 					for (User bidder:bidders) {
-						System.out.println(itemId + " "+bidder.getId());
+						//System.out.println(itemId + " "+bidder.getId());
 						if (bidder.getId() != buyerId) {
 							System.out.println(itemId + " "+bidder.getId());
-							res = ss.setItemStatus (bidder.getId(),itemId,"Rejected");
+							res = ss.setItemStatus (itemId,bidder.getId(),"Rejected");
 						}
 					}
 					System.out.println("1 offer accepted and " + res + " offer rejected ");
 				}else if (choice == 2) {
 					System.out.println("Enter Item Id number: ");
-					buyerId = sc.nextInt();
-					System.out.println("Enter Buyer Id number: ");
 					itemId = sc.nextInt();
-					status = ss.getItemStatus(buyerId, itemId);
+					System.out.println("Enter Buyer Id number: ");
+					buyerId = sc.nextInt();
+					status = ss.getItemStatus(itemId,buyerId);
 					while (status.length() <= 1) {
 						System.out.println("Bid does not exist enter correct info");
 						for (BidList bids:allBids) {
@@ -194,9 +195,9 @@ public class EmployeeScreen {
 						buyerId = sc.nextInt();
 						System.out.println("Enter Buyer Id number: ");
 						itemId = sc.nextInt();
-						status = ss.getItemStatus(buyerId, itemId);
+						status = ss.getItemStatus(itemId,buyerId);
 					}
-					int res = ss.setItemStatus(buyerId,itemId, "Rejected");
+					int res = ss.setItemStatus(itemId, buyerId,"Rejected");
 					System.out.println("You have rejected " + res + " offer");
 				}else {
 					sc.nextLine();
@@ -229,6 +230,7 @@ public class EmployeeScreen {
 				break;
 			case "6":
 				System.out.println("Thank you for using shoe shopping system!");
+				log.info("Employee has logged in");
 				break;
 			default:
 				System.out.println("Invalid input");

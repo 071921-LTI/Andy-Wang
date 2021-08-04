@@ -18,7 +18,7 @@ public class Driver {
 		Shoes shoe = new Shoes();
 		
 		shoe = id.getItemById(4);
-		System.out.println(shoe.getId() + shoe.getBrand() + shoe.getColor() + shoe.getShoeType() + shoe.getPrice() + shoe.getSize());
+		System.out.println(shoe.getId() + shoe.getBrand() + shoe.getColor() + shoe.getShoeType() + shoe.getSize());
 		id.getItems();
 		String res = bd.showStatus(2, 1);
 		System.out.println(res);

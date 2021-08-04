@@ -22,10 +22,10 @@ public class SystemServiceImp implements SystemService{
 	public void displayItems() {
 		List<Shoes> items;
 		items = id.getItems();
-		System.out.format("%-10s%-20s%-10s%-20s%-20s%s", "ShoeID", "Brand","Size","Type","Color","Price\n");
-		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.format("%-10s%-20s%-10s%-20s%-1s", "ShoeID", "Brand","Size","Type","Color\n");
+		System.out.println("--------------------------------------------------------------------------------");
 		for (Shoes shoe:items) {
-			System.out.format(" %-10d%-20s%-10d%-20s%-20s%2.2f", shoe.getId(),shoe.getBrand(),shoe.getSize(),shoe.getShoeType(),shoe.getColor(),shoe.getPrice());
+			System.out.format(" %-10d%-20s%-10d%-20s%-20s", shoe.getId(),shoe.getBrand(),shoe.getSize(),shoe.getShoeType(),shoe.getColor());
 			System.out.println();
 		}
 	}

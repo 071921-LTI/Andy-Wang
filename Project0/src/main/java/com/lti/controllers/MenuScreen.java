@@ -2,6 +2,9 @@ package com.lti.controllers;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.exceptions.AuthException;
 import com.lti.exceptions.UserInvalidException;
 import com.lti.exceptions.UserNotFoundException;
@@ -16,6 +19,7 @@ public class MenuScreen {
 	static Scanner sc = new Scanner(System.in);
 	static UserService us;
 	static AuthService as;
+	private static Logger log = LogManager.getRootLogger();
 	
 	// Menu logic
 	public static void display() {
@@ -54,29 +58,35 @@ public class MenuScreen {
 
 					if(as.login(toBeChecked)) {
 						System.out.println("Successfully logged in!");
+
 						if (userType.equals("customer")) {
+							log.info("Customer " + user.getId() + " has logged in");
 							UserScreen.setCurrUser(user);
 							UserScreen.display();
 						}else {
+							log.info("Employee has logged in");
 							EmployeeScreen.display();
 						}
 						input = "3";
 					} else {
+						log.warn("Invalid password attempt for Customer ID: " + user.getId());
 						System.out.println("Wrong credentials");
 					}
 				} catch (UserNotFoundException e) {
+					log.error("Exception was thrown: " + e.fillInStackTrace());
 					System.out.println("User was not found.");
 				} catch (AuthException e) {
+					log.error("Exception was thrown: " + e.fillInStackTrace());
 					System.out.println("Wrong credentials");
 				}
 				break;
 			case "2":
-				// Do stuff here
 				System.out.println("Enter a username:");
 				String usernameNew = sc.nextLine();
 				try {
 					boolean user = us.findUser(usernameNew);
 				} catch (UserInvalidException e) {
+					log.error("Exception was thrown: " + e.fillInStackTrace());
 					System.out.println("Username already taken!");
 					break;
 				}

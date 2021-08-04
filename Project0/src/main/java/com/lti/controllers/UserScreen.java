@@ -2,6 +2,9 @@ package com.lti.controllers;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
@@ -12,6 +15,7 @@ import com.lti.services.SystemService;
 import com.lti.services.SystemServiceImp;
 import com.lti.services.UserService;
 import com.lti.services.UserServiceImpl;
+import com.sun.tools.sjavac.Log;
 
 public class UserScreen {
 
@@ -19,6 +23,7 @@ public class UserScreen {
 	static SystemService ss = new SystemServiceImp();
 	static CustomerService cs = new CustomerServiceImpl();
 	static User currentUser;
+	private static Logger log = LogManager.getRootLogger();
 	
 	public static void setCurrUser(User user) {
 		currentUser = user;
@@ -52,7 +57,7 @@ public class UserScreen {
 					res = ss.getItemStatus(shoepicked.getId(), currentUser.getId());
 					if (res.length() > 1) {
 						System.out.println("You have a bid on this item already\n**********");
-						System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
+						System.out.format("%-15s%-17s%-12s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id\n");
 						System.out.println(res + "\n**********");
 					}else {
 						System.out.println("Enter bid amount: ");
@@ -126,6 +131,7 @@ public class UserScreen {
 				break;
 			case "4":
 				System.out.println("Thank you using shoe shopping system!");
+				log.info("Customer Id" + currentUser.getId() + " has logged out");
 				break;
 			default:
 				System.out.println("Invalid Input");

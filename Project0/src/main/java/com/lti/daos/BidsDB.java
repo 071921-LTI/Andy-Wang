@@ -6,13 +6,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.models.BidList;
 import com.lti.models.User;
 import com.lti.util.ConnectionUtil;
 
 public class BidsDB implements BidDao {
 	
-
+	private static Logger log = LogManager.getRootLogger();
 	@Override
 	public int addItemBid(int buyer_id, int shoe_id, double bid_price,String item_status) {
 		int id = -1;
@@ -34,9 +37,11 @@ public class BidsDB implements BidDao {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		
@@ -57,9 +62,11 @@ public class BidsDB implements BidDao {
 			rowChanged = ps.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				e.printStackTrace();
 			}
 		return rowChanged;
@@ -78,9 +85,11 @@ public class BidsDB implements BidDao {
 			rowChanged = ps.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				e.printStackTrace();
 			}
 		return rowChanged;
@@ -102,9 +111,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return userBids;
@@ -126,9 +137,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return shoes;
@@ -138,7 +151,7 @@ public class BidsDB implements BidDao {
 	public String showStatus(int shoe_id, int cust_id) {
 		String status = " ";
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
-			String sql = "select b.item_status, c.customer_name , b.offer_price, b.payment_total , s.shoe_id,s.shoe_price\r\n"
+			String sql = "select b.item_status, c.customer_name , b.offer_price, b.payment_total , s.shoe_id\r\n"
 					+ "from project0.customer c, project0.bidlist b, project0.items s\r\n"
 					+ "where c.customer_id = b.buyer_id and c.customer_id = ? and s.shoe_id = b.item_id and s.shoe_id = ?;";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -146,14 +159,16 @@ public class BidsDB implements BidDao {
 			ps.setInt(2, shoe_id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next())
-				for (int i = 1; i < 7; i++) {
+				for (int i = 1; i < 6; i++) {
 					status += rs.getString(i) + "		" ;
 				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return status;
@@ -172,9 +187,11 @@ public class BidsDB implements BidDao {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return rowChanged;
@@ -193,9 +210,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return total;
@@ -214,9 +233,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return total;
@@ -235,9 +256,11 @@ public class BidsDB implements BidDao {
 			rowchanged = ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return rowchanged;
@@ -263,9 +286,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return allBids;
@@ -290,9 +315,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return allBids;
@@ -313,9 +340,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return res;
@@ -339,9 +368,11 @@ public class BidsDB implements BidDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return bid;
