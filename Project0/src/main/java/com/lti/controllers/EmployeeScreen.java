@@ -154,8 +154,8 @@ public class EmployeeScreen {
 					itemId = sc.nextInt();
 					System.out.println("Enter Buyer Id number: ");
 					buyerId = sc.nextInt();
-					status = ss.getItemStatus(buyerId, itemId);
-					while (status.length() <= 1) {
+					status = ss.getItemStatus(itemId,buyerId);
+					while (status.length() < 1) {
 						System.out.println("Bid does not exist enter correct info");
 						for (BidList bids:allBids) {
 							System.out.println(bids);
@@ -167,7 +167,7 @@ public class EmployeeScreen {
 						status = ss.getItemStatus(itemId,buyerId);
 					}
 					
-					ss.setItemStatus(buyerId, itemId, "Accepted");
+					ss.setItemStatus(itemId, buyerId,"Accepted");
 					bidders = ss.getCustomerBids(itemId);
 					
 					int res = 0; 
@@ -175,7 +175,7 @@ public class EmployeeScreen {
 					for (User bidder:bidders) {
 						//System.out.println(itemId + " "+bidder.getId());
 						if (bidder.getId() != buyerId) {
-							System.out.println(itemId + " "+bidder.getId());
+							//System.out.println(itemId + " "+bidder.getId());
 							res = ss.setItemStatus (itemId,bidder.getId(),"Rejected");
 						}
 					}
@@ -237,7 +237,7 @@ public class EmployeeScreen {
 				sc.nextLine();
 				break;
 			}
-		}while(!input.equals("5"));
+		}while(!input.equals("6"));
 		
 	}
 }

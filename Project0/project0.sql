@@ -20,13 +20,12 @@ create table if not exists items(
 	shoe_size INTEGER,
 	shoe_type VARCHAR(20),
 	shoe_color VARCHAR(20),
-	shoe_price INTEGER,
 	shoe_id SERIAL primary key
 );
 
-drop table bidlist ;
+drop table bidlist,customer ,employee,items;
 create table if not exists bidlist(
---	bid_id INTEGER primary key unique
+	bid_id SERIAL primary key,
 	item_id INTEGER references items(shoe_id),
 	buyer_id INTEGER references customer(customer_id),
 	offer_price INTEGER,
