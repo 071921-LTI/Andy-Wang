@@ -8,7 +8,6 @@ public class Shoes implements Serializable{
 	private int size;
 	private String shoeType; //sandals, sneakers, slides, cleats
 	private String color; //red, blue, green, orange, black, white
-	private double price;
 //	private ArrayList<User> bidList = new ArrayList<>();
 //	
 //	public ArrayList<User> getBidList(){
@@ -23,14 +22,13 @@ public class Shoes implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Shoes(int id, String brand, int size, String shoe_type, String color, double shoe_price) {
+	public Shoes(int id, String brand, int size, String shoe_type, String color) {
 		super();
 		this.id = id;
 		this.brand = brand;
 		this.size = size;
 		this.shoeType = shoe_type;
 		this.color = color;
-		this.price = shoe_price;
 	}
 	
 	public Shoes(int id) {
@@ -38,13 +36,12 @@ public class Shoes implements Serializable{
 		this.id = id;
 	}
 	
-	public Shoes(String brand, int size, String shoe_type, String color, double shoe_price) {
+	public Shoes(String brand, int size, String shoe_type, String color) {
 		super();
 		this.brand = brand;
 		this.size = size;
 		this.shoeType = shoe_type;
 		this.color = color;
-		this.price = shoe_price;
 	}
 	
 
@@ -82,17 +79,9 @@ public class Shoes implements Serializable{
 		this.color = color;
 	}
 	
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	
 	@Override
 	public String toString() {
-		return "Shoe id=" + id + ", brand=" + brand + ", size=" + size + ", shoeType=" + shoeType + ", color=" + color
-				+ ", price=" + price;
+		return "Shoe id=" + id + ", brand=" + brand + ", size=" + size + ", shoeType=" + shoeType + ", color=" + color;
 //		return (id + " " + brand + " " + size + " " +  shoeType + " " + color + " " + price);
 	}
 	@Override
@@ -102,9 +91,6 @@ public class Shoes implements Serializable{
 		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + id;
-		long temp;
-		temp = Double.doubleToLongBits(price);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((shoeType == null) ? 0 : shoeType.hashCode());
 		result = prime * result + size;
 		return result;
@@ -129,8 +115,6 @@ public class Shoes implements Serializable{
 		} else if (!color.equals(other.color))
 			return false;
 		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
 		if (shoeType == null) {
 			if (other.shoeType != null)

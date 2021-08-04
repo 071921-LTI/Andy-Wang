@@ -5,14 +5,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.models.Shoes;
 import com.lti.util.ConnectionUtil;
 
 public class ItemsDB implements ItemsDao{
-
+	private static Logger log = LogManager.getRootLogger();
 	@Override
 	public Shoes getItemById(int id) {
-		// TODO Auto-generated method stub
 		Shoes shoe = null;
 		try(Connection con = ConnectionUtil.getConnectionFromFile()){
 			String sql = "select * from project0.items where shoe_id = ?";
@@ -27,16 +29,17 @@ public class ItemsDB implements ItemsDao{
 				int shoe_size = rs.getInt("shoe_size");
 				String shoe_type = rs.getString("shoe_type");
 				String shoe_color = rs.getString("shoe_color");
-				double shoe_price = rs.getDouble("shoe_price");
 				
-				shoe = new Shoes(shoe_id,shoe_brand,shoe_size,shoe_type,shoe_color,shoe_price);
+				shoe = new Shoes(shoe_id,shoe_brand,shoe_size,shoe_type,shoe_color);
 
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return shoe;
@@ -56,17 +59,18 @@ public class ItemsDB implements ItemsDao{
 				int shoe_size = rs.getInt("shoe_size");
 				String shoe_type = rs.getString("shoe_type");
 				String shoe_color = rs.getString("shoe_color");
-				double shoe_price = rs.getDouble("shoe_price");
 				int shoe_id = rs.getInt("shoe_id");
 //				System.out.println(shoe_id + " " + shoe_brand + " " + shoe_size + " " +  shoe_type + " " + shoe_color + " " + shoe_price);
-				Shoes shoe = new Shoes(shoe_id,shoe_brand,shoe_size,shoe_type,shoe_color,shoe_price);
+				Shoes shoe = new Shoes(shoe_id,shoe_brand,shoe_size,shoe_type,shoe_color);
 				shoes.add(shoe);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 		return shoes;
@@ -74,8 +78,7 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public boolean addItem(Shoes shoe) {
-		// TODO Auto-generated method stub
-		String sql = "insert into project0.items (shoe_brand,shoe_size,shoe_type,shoe_color,shoe_price) values (?,?,?,?,?) returning shoe_id;";
+		String sql = "insert into project0.items (shoe_brand,shoe_size,shoe_type,shoe_color) values (?,?,?,?) returning shoe_id;";
 		
 		try (Connection con = ConnectionUtil.getConnectionFromFile()){
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -83,7 +86,6 @@ public class ItemsDB implements ItemsDao{
 			ps.setInt(2, shoe.getSize());
 			ps.setString(3, shoe.getShoeType());
 			ps.setString(4, shoe.getColor());
-			ps.setDouble(5, shoe.getPrice());
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -92,36 +94,39 @@ public class ItemsDB implements ItemsDao{
 			}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				e.printStackTrace();
-			} catch (IOException e1) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				log.error("Exception was thrown: " + e.fillInStackTrace());
+				e.printStackTrace();
 			}
 		return false;
 	}
-
 	@Override
 	public boolean updateItem(Shoes shoe) {
-		// TODO Auto-generated method stub
+		
 		boolean status = false;
-		String sql = "update project0.items set shoe_brand = ?,shoe_size= ?,shoe_type= ?,shoe_color= ?,shoe_price= ? where shoe_id = ?";
+		String sql = "update project0.items set shoe_brand = ?,shoe_size= ?,shoe_type= ?,shoe_color= ? where shoe_id = ?";
 		try (Connection con = ConnectionUtil.getConnectionFromFile()){
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, shoe.getBrand());
 			ps.setInt(2, shoe.getSize());
 			ps.setString(3, shoe.getShoeType());
 			ps.setString(4, shoe.getColor());
-			ps.setDouble(5, shoe.getPrice());
-			ps.setInt(6,shoe.getId());
+			ps.setInt(5,shoe.getId());
 
 			int rowschanged = ps.executeUpdate();
-			status = true;
-
+			if (rowschanged > 0) {
+				status = true;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 			e.printStackTrace();
 		}
 
@@ -131,7 +136,6 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public int removeItem(Shoes shoe) {
-		// TODO Auto-generated method stub
 		String sql = "delete from project0.items where shoe_id = ?;";
 		int rowChanged = -1;
 		
@@ -142,8 +146,10 @@ public class ItemsDB implements ItemsDao{
 			
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				e.printStackTrace();
 			} catch (IOException e) {
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -152,7 +158,6 @@ public class ItemsDB implements ItemsDao{
 
 	@Override
 	public List<Shoes> getShoebyCustomerId(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -2,6 +2,9 @@ package com.lti.controllers;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.models.BidList;
 import com.lti.models.Shoes;
 import com.lti.models.User;
@@ -12,6 +15,7 @@ import com.lti.services.SystemService;
 import com.lti.services.SystemServiceImp;
 import com.lti.services.UserService;
 import com.lti.services.UserServiceImpl;
+import com.sun.tools.sjavac.Log;
 
 public class UserScreen {
 
@@ -19,6 +23,7 @@ public class UserScreen {
 	static SystemService ss = new SystemServiceImp();
 	static CustomerService cs = new CustomerServiceImpl();
 	static User currentUser;
+	private static Logger log = LogManager.getRootLogger();
 	
 	public static void setCurrUser(User user) {
 		currentUser = user;
@@ -52,7 +57,7 @@ public class UserScreen {
 					res = ss.getItemStatus(shoepicked.getId(), currentUser.getId());
 					if (res.length() > 1) {
 						System.out.println("You have a bid on this item already\n**********");
-						System.out.format("%-20s%-20s%-10s%-20s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id","Price\n");
+						System.out.format("%-15s%-17s%-12s%-18s%s", "Item Status", "Customer","Offer","Payment Total","Shoe Id\n");
 						System.out.println(res + "\n**********");
 					}else {
 						System.out.println("Enter bid amount: ");
@@ -77,26 +82,56 @@ public class UserScreen {
 				default:
 					break;
 				}
-				input = "4";
 				break;
 			case "2":
+				double amount;
+				boolean payed;
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
-					if (bid.getItemStatus().equals("Accepted")) {
+					if (bid.getItemStatus().equals("Accepted") || bid.getItemStatus().equals("Payed")) {
+						System.out.println(bid + " Remaining Balance: " + (bid.getOfferPrice() - bid.getPaymentTotal()));
+						
+					}
+				}
+				
+				do {
+					System.out.println("Enter shoe id number to show more actions: ");
+					choice = sc.nextInt();
+					shoepicked = ss.getItemById(choice);
+					payed = ss.findBid(choice, currentUser.getId()).getItemStatus().equals("Payed");
+					if(payed) {
+						System.out.println("Item has been payed");
+					}
+				}while (shoepicked == null || payed == true);
+				System.out.println("Enter 1 to make payment, 2 to go back");
+				int pick = sc.nextInt();
+				if (pick == 1) {
+					System.out.println("Enter amount to pay:");
+					amount = sc.nextDouble();
+					if (cs.makePayment(currentUser.getId(), choice, amount)) {
+						System.out.println("Payment succesful");
+						if (ss.findBid(choice,currentUser.getId()).getOfferPrice() ==ss.findBid(choice,currentUser.getId()).getPaymentTotal() ) {
+							ss.setItemStatus(choice, currentUser.getId(),"Payed");
+						}
+					}else {
+						System.out.println("Payment unsuccessful");
+					}
+				}
+				sc.nextLine();
+				display();
+				input = "4";
+				break;
+			case "3":
+				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
+					if (!bid.getItemStatus().equals("Accepted") || !bid.getItemStatus().equals("Payed")) {
 						System.out.println(bid);
 					}
 				}
 				display();
 				input = "4";
 				break;
-			case "3":
-				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
-					System.out.println(bid);
-				}
-				display();
-				//input = "4";
-				break;
 			case "4":
 				System.out.println("Thank you using shoe shopping system!");
+				log.info("Customer Id" + currentUser.getId() + " has logged out");
 				break;
 			default:
 				System.out.println("Invalid Input");
