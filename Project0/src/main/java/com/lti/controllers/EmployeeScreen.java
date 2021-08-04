@@ -237,7 +237,7 @@ public class EmployeeScreen {
 				sc.nextLine();
 				break;
 			}
-		}while(!input.equals("5"));
+		}while(!input.equals("6"));
 		
 	}
 }

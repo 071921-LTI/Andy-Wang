@@ -1,5 +1,7 @@
 package com.lti.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -70,6 +72,7 @@ public class UserScreen {
 					}
 					sc.nextLine();
 					display();
+					input = "4";
 					break;
 				case 2:
 					System.out.println("Enter new bid amount: ");
@@ -78,6 +81,7 @@ public class UserScreen {
 					System.out.println(updated + " Bid edited");
 					sc.nextLine();
 					display();
+					input = "4";
 					break;
 				default:
 					break;
@@ -86,10 +90,23 @@ public class UserScreen {
 			case "2":
 				double amount;
 				boolean payed;
+				List<BidList> bidd = new ArrayList<>();
+				
 				for (BidList bid: ss.getAllBidsbyUser(currentUser.getId())){
 					if (bid.getItemStatus().equals("Accepted") || bid.getItemStatus().equals("Payed")) {
-						System.out.println(bid + " Remaining Balance: " + (bid.getOfferPrice() - bid.getPaymentTotal()));
+						bidd.add(bid);
 						
+					}
+				}
+				
+				if (bidd.size() == 0) {
+					System.out.println("No owned products");
+					display();
+					input = "4";
+					break;
+				}else {
+					for (BidList b:bidd) {
+						System.out.println(b);
 					}
 				}
 				
@@ -131,7 +148,7 @@ public class UserScreen {
 				break;
 			case "4":
 				System.out.println("Thank you using shoe shopping system!");
-				log.info("Customer Id" + currentUser.getId() + " has logged out");
+				log.info("Customer Id " + currentUser.getId() + " has logged out");
 				break;
 			default:
 				System.out.println("Invalid Input");
