@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lti.exceptions.UserNotFoundException;
 import com.lti.models.User;
+import com.lti.models.UserRoles;
 
 public interface UserDao {
 
@@ -13,9 +14,9 @@ public interface UserDao {
 	User getUserByUsername(String username) throws UserNotFoundException;
 	List<User> getUsers();
 	// Should return the id generated
-	int addUser(User user);
+	User addUser(User user);
 	// if no user is found
-	int deleteUser(int id) throws UserNotFoundException;
-	String getUserRole(int id);
-	int updateUser(User user);
+	void updateUser(User user);
+	void deleteUser(User user) throws UserNotFoundException;
+//	UserRoles getUserRole(User user);
 }

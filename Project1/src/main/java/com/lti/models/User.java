@@ -1,22 +1,46 @@
 package com.lti.models;
 
-public class User {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "ERS_USERS")
+public class User {
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "ERS_USERS_ID")
 	private int id;
+	
+	@Column(name = "ERS_FIRST_RNAME",nullable = false,unique = true)
 	private String firstname;
+	
+	@Column(name = "ERS_LAST_NAME", nullable = false, unique = true)
 	private String lastname;
+	
+	@Column(name = "ERS_USERNAME", nullable = false)
 	private String username;
+
+	@Column(name = "ERS_PASSWORD",nullable = false)
 	private String password;
-	private int roleid;
+	
+	@Column(name = "ERS_EMAIL",nullable = false)
 	private String email;
 	
+	@ManyToOne(targetEntity = UserRoles.class)
+	@JoinColumn(name = "user_role_id", nullable = false)
+	private UserRoles roleid;
 	
+	
+	public User(int id, String username) {
+		super();
+		this.id = id;
+		this.username = username;
+	}
+
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String firstname, String lastname, String username, String password, int roleid, String email) {
+	public User(int id, String firstname, String lastname, String username, String password, String email, UserRoles roleid) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
@@ -27,20 +51,20 @@ public class User {
 		this.email = email;
 	}
 	
-	public User(String firstname, String lastname, int roleid) {
+	public User(String firstname, String lastname, UserRoles roleid) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.roleid = roleid;
 	}
 
-	public User(int id, int roleid) {
+	public User(int id, UserRoles roleid) {
 		super();
 		this.id = id;
 		this.roleid = roleid;
 	}
 
-	public User(String firstname, String lastname, String username, String password, int roleid, String email) {
+	public User(String firstname, String lastname, String username, String password, String email, UserRoles roleid) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -49,6 +73,7 @@ public class User {
 		this.roleid = roleid;
 		this.email = email;
 	}
+
 
 	public int getId() {
 		return id;
@@ -80,10 +105,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getRoleid() {
+	public UserRoles getRoleid() {
 		return roleid;
 	}
-	public void setRoleid(int roleid) {
+	public void setRole(UserRoles roleid) {
 		this.roleid = roleid;
 	}
 	public String getEmail() {
@@ -101,7 +126,7 @@ public class User {
 		result = prime * result + id;
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + roleid;
+		result = prime * result + ((roleid == null) ? 0 : roleid.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -136,7 +161,10 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (roleid != other.roleid)
+		if (roleid == null) {
+			if (other.roleid != null)
+				return false;
+		} else if (!roleid.equals(other.roleid))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -148,7 +176,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", username=" + username
-				+ ", password=" + password + ", roleid=" + roleid + ", email=" + email + "]";
+				+ ", password=" + password + ", email=" + email + ", roleid=" + roleid + "]";
 	}
 	
 

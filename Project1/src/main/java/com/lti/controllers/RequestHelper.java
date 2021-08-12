@@ -5,14 +5,13 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.lti.delegates.PokemonDelegate;
+import com.lti.delegates.ReimburseDelegate;
 import com.lti.delegates.UserDelegate;
 
 public class RequestHelper {
 
 	private UserDelegate ud = new UserDelegate();
-	private PokemonDelegate pd = new PokemonDelegate();
+	private ReimburseDelegate rd = new ReimburseDelegate();
 	
 	public void process(HttpServletRequest rq, HttpServletResponse rs) throws IOException, ServletException {
 		String path = rq.getPathInfo();
@@ -36,9 +35,9 @@ public class RequestHelper {
 			case "users":
 				ud.process(rq, rs);
 				break;
-			case "pokemons":
+			case "reimburse":
 				// Can add auth behavior here.
-				pd.process(rq, rs);
+				rd.process(rq, rs);
 				break;
 			case "auth":
 				// TODO: create auth delegate 
