@@ -27,9 +27,13 @@ public class ReimburseServiceImpl implements ReimburseService {
 	}
 
 	@Override
-	public Reimbursement RemoveReimburse(Reimbursement reimburse) throws ReimbursementNotFoundExeception {
-		rd.removeReimburse(reimburse);
-		return null;
+	public boolean RemoveReimburse(Reimbursement reimburse) {
+		if (rd.getReimburseById(reimburse.getReimbId()) != null){
+			rd.removeReimburse(reimburse);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
@@ -52,6 +56,16 @@ public class ReimburseServiceImpl implements ReimburseService {
 	public boolean UpdateReimbursement(Reimbursement reimburse) {
 		rd.updateReimburse(reimburse);
 		return true;
+	}
+
+	@Override
+	public Reimbursement getReimburseById(int id) {
+		return rd.getReimburseById(id);
+	}
+
+	@Override
+	public List<Reimbursement> GetAllReimbursements() {
+		return rd.getReimburse();
 	}
 
 }

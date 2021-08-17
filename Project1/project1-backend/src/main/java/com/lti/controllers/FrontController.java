@@ -13,7 +13,7 @@ public class FrontController extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private RequestHelper rh = new RequestHelper();
+	private RequestHelper rh = new RequestHelper(); 
 	
 	protected void doGet(HttpServletRequest rq, HttpServletResponse rs) throws IOException, ServletException{
 		addCorsHeader(rq.getRequestURI(),rs);

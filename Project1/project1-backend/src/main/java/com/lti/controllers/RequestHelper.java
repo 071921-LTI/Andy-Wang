@@ -48,6 +48,7 @@ public class RequestHelper {
 				break;
 			default:
 				rs.sendError(400, "Path not supported:" + path);
+				break;
 			}
 		} else {
 			rs.sendError(400, "No path found.");

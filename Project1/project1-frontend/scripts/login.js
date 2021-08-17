@@ -14,7 +14,7 @@ function login(){
             let authToken = xhr.getResponseHeader("Authorization");
             
             sessionStorage.setItem("token", authToken);
-
+            console.log(authToken);
             window.location.href="dashboard.html";
 
         } else if (xhr.readyState === 4){

@@ -58,12 +58,7 @@ public class Driver {
 		
 		//rd.deleteUserRole(employee);
 		
-		try {
-			ud.deleteUser(empl);
-		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ud.deleteUser(empl);
 		
 		
 		System.out.println("getAll" + ud.getUsers());

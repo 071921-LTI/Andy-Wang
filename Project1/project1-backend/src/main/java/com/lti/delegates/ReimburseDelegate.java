@@ -1,6 +1,7 @@
 package com.lti.delegates;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lti.exceptions.UserNotFoundException;
-import com.lti.models.User;
+import com.lti.models.Reimbursement;
 import com.lti.services.AuthServiceImpl;
 import com.lti.services.AuthServices;
 import com.lti.services.ReimburseService;
@@ -22,7 +23,7 @@ import com.lti.services.UserServiceImpl;
 public class ReimburseDelegate implements Delegatable{
 	UserService us = new UserServiceImpl();
 	AuthServices as = new AuthServiceImpl();
-	ReimburseService rs = new ReimburseServiceImpl();
+	ReimburseService rbs = new ReimburseServiceImpl();
 	@Override
 	public void process(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		// Retrieve GET, POST, PUT, DELETE...
@@ -54,29 +55,27 @@ public class ReimburseDelegate implements Delegatable{
 
 		if (pathNext != null) {
 			try {
-				Reimbursement reimburse= (Integer.valueOf(pathNext));
+				Reimbursement reimburse= rbs.getReimburseById(Integer.valueOf(pathNext));
 				try (PrintWriter pw = rs.getWriter()) {
-					pw.write(new ObjectMapper().writeValueAsString(user));
+					pw.write(new ObjectMapper().writeValueAsString(reimburse));
 				}
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (UserNotFoundException e) {
-				rs.sendError(404);
 			}
 		} else {
 			String authToken = rq.getHeader("Authorization");
 			
 			try {
-				if(authToken == null || !as.authorizeManager(authToken)) {
+				if(authToken == null || !as.authorize(authToken)) {
 					rs.sendError(403);
 				}else {
 					/*
 					 * for /users endpoint, returning all users
 					 */
-					List<User> users = us.getUsers();
+					List<Reimbursement> reimburses= rbs.GetAllReimbursements();
 					try (PrintWriter pw = rs.getWriter()) {
-						pw.write(new ObjectMapper().writeValueAsString(users));
+						pw.write(new ObjectMapper().writeValueAsString(reimburses));
 					}
 				}
 			} catch (JsonProcessingException e) {
@@ -94,17 +93,43 @@ public class ReimburseDelegate implements Delegatable{
 
 	@Override
 	public void handlePut(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-	
+		System.out.println("In handlePut");
 	}
 
 	@Override
 	public void handlePost(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-	
+		InputStream request = rq.getInputStream();
+		// Converts the request body into a User.class object
+		Reimbursement reimburse = new ObjectMapper().readValue(request, Reimbursement.class);
+		
+		if (!rbs.addReimburse(reimburse)) {
+			rs.sendError(400, "Unable to add Reimbursement.");
+		} else {
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(reimburse));
+			}
+			rs.setStatus(201);
+		}
+
+		
 	}
 
 	@Override
 	public void handleDelete(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
+		System.out.println("In handleDelete");
+		InputStream request = rq.getInputStream();
+		// Converts the request body into a User.class object
+		Reimbursement reimburse = new ObjectMapper().readValue(request, Reimbursement.class);
 		
+		if (!rbs.RemoveReimburse(reimburse)) {
+			rs.sendError(400, "Unable to delete Reimbursement.");
+		} else {
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(reimburse));
+			}
+			rs.setStatus(201);
+		}
+
 		
 	}
 

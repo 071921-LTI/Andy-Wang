@@ -28,7 +28,6 @@ public class UserHibernate implements UserDao {
 	@Override
 	public User getUserByUsername(String username) {
 		User user= null;
-		
 		try(Session s = HibernateUtil.getSessionFactory().openSession()){
 			CriteriaBuilder cb = s.getCriteriaBuilder();
 			CriteriaQuery<User> cq = cb.createQuery(User.class);
@@ -65,7 +64,7 @@ public class UserHibernate implements UserDao {
 	}
 
 	@Override
-	public void deleteUser(User user) throws UserNotFoundException {
+	public void deleteUser(User user) {
 		try(Session s = HibernateUtil.getSessionFactory().openSession()){
 			Transaction tx = s.beginTransaction();
 			s.delete(user);

@@ -5,7 +5,7 @@ let apiURL = 'http://localhost:8080/project1/users/';
 async function getData() {
 
     let userInput = document.getElementById('dataInput').value;
-
+    console.log(userInput);
     let response = await fetch(apiURL + userInput);
 
     if(response.status >= 200 && response.status < 300){

@@ -30,12 +30,12 @@ public class Reimbursement {
 	@Column(name = "REIMB_RECEIPT")
 	private byte[] reimbReceipt;
 	
-	@ManyToOne(targetEntity = User.class, cascade = CascadeType.REMOVE) 
+	@ManyToOne(targetEntity = User.class) 
 	@JoinColumn(name = "REIMB_AUTHOR", nullable = false)
 	private User reimbAuthor;
 	
 	
-	@ManyToOne(targetEntity = User.class , cascade = CascadeType.REMOVE) 
+	@ManyToOne(targetEntity = User.class) 
 	@JoinColumn(name = "REIMB_RESOLVER")
 	private User reimbResolver;
 	

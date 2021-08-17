@@ -29,14 +29,18 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserByUsername(String username) throws UserNotFoundException {
+		return ud.getUserByUsername(username);
 	}
 
 	@Override
-	public void deleteUser(User user) throws UserNotFoundException {
-		ud.deleteUser(user);;
+	public boolean deleteUser(User user) {
+		if (ud.getUserById(user.getId()) != null) {
+			ud.deleteUser(user);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

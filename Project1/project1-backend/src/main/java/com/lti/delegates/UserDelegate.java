@@ -1,5 +1,6 @@
 package com.lti.delegates;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -60,14 +61,22 @@ public class UserDelegate implements Delegatable {
 		String pathNext = (String) rq.getAttribute("pathNext");
 
 		if (pathNext != null) {
+			User user = null;
 			try {
-				User user = us.getUserById(Integer.valueOf(pathNext));
+				user = us.getUserById(Integer.valueOf(pathNext));
 				try (PrintWriter pw = rs.getWriter()) {
 					pw.write(new ObjectMapper().writeValueAsString(user));
 				}
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					user = us.getUserByUsername(pathNext);
+				} catch (UserNotFoundException e1) {
+					rs.sendError(404);
+				}
+				try (PrintWriter pw = rs.getWriter()) {
+					pw.write(new ObjectMapper().writeValueAsString(user));
+				}
+				
 			} catch (UserNotFoundException e) {
 				rs.sendError(404);
 			}
@@ -115,13 +124,16 @@ public class UserDelegate implements Delegatable {
 		 * 	- return 201 if successful
 		 */
 		
-		InputStream request = rq.getInputStream();
+		BufferedReader request = rq.getReader();
 		// Converts the request body into a User.class object
 		User user = new ObjectMapper().readValue(request, User.class);
-		
+		System.out.println(user);
 		if (!us.addUser(user)) {
 			rs.sendError(400, "Unable to add user.");
 		} else {
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(user));
+			}
 			rs.setStatus(201);
 		}
 
@@ -130,7 +142,28 @@ public class UserDelegate implements Delegatable {
 	@Override
 	public void handleDelete(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		System.out.println("In handleDelete");
-
+		String pathNext = (String) rq.getAttribute("pathNext");
+		User user = null;
+		try {
+			user = us.getUserById(Integer.valueOf(pathNext));
+			us.deleteUser(user);
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(user));
+			}
+		} catch (NumberFormatException e) {
+			try {
+				user = us.getUserByUsername(pathNext);
+				us.deleteUser(user);
+			} catch (UserNotFoundException e1) {
+				rs.sendError(404);
+			}
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(user));
+			}
+			
+		} catch (UserNotFoundException e) {
+			rs.sendError(404);
+		}
 	}
 
 }

@@ -18,17 +18,17 @@ public class User {
 	@Column(name = "ERS_USERNAME", nullable = false ,unique = true)
 	private String username;
 
-	@Column(name = "ERS_PASSWORD",nullable = false,unique = true)
+	@Column(name = "ERS_PASSWORD",nullable = false)
 	private String password;
 	
-	@Column(name = "USER_EMAIL",nullable = false)
+	@Column(name = "USER_EMAIL",nullable = false,unique = true)
 	private String email;
 	
 	@ManyToOne(targetEntity = UserRoles.class)
 	@JoinColumn(name = "user_role_id", nullable = false)
 	private UserRoles roleid;
 	
-	
+	 
 	public User(int id, String username) {
 		super();
 		this.id = id;

@@ -17,6 +17,6 @@ public interface UserDao {
 	User addUser(User user);
 	// if no user is found
 	void updateUser(User user);
-	void deleteUser(User user) throws UserNotFoundException;
+	void deleteUser(User user);
 //	UserRoles getUserRole(User user);
 }

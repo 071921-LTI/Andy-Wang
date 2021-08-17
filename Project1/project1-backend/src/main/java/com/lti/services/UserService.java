@@ -10,6 +10,6 @@ public interface UserService {
 	public abstract boolean addUser(User user);
 	public abstract List<User> getUsers();
 	public abstract User getUserById(int id) throws UserNotFoundException;	
-	public abstract User getUserByUsername(String username);
-	public abstract void deleteUser(User user) throws UserNotFoundException;
+	public abstract User getUserByUsername(String username) throws UserNotFoundException;
+	public abstract boolean deleteUser(User user);
 }
