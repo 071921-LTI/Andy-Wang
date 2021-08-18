@@ -43,4 +43,14 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Override
+	public boolean updateUser(User user) {
+		if (ud.getUserById(user.getId()) != null) {
+			ud.updateUser(user);
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 }

@@ -48,8 +48,9 @@ public class ReimburseServiceImpl implements ReimburseService {
 	}
 
 	@Override
-	public List<Reimbursement> GetReimbursesByStatus(ReimburseStatus status) {
-		return rd.getReimburseByStatus(status);
+	public List<Reimbursement> GetReimbursesByStatus(String status) {
+		ReimburseStatus rstatus =sd.getReimburseStatusByString(status);
+		return rd.getReimburseByStatus(rstatus);
 	}
 
 	@Override

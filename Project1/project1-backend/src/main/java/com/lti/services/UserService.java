@@ -12,4 +12,5 @@ public interface UserService {
 	public abstract User getUserById(int id) throws UserNotFoundException;	
 	public abstract User getUserByUsername(String username) throws UserNotFoundException;
 	public abstract boolean deleteUser(User user);
+	public abstract boolean updateUser(User user);
 }

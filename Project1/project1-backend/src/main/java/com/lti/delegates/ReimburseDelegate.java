@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lti.exceptions.UserNotFoundException;
+import com.lti.models.ReimburseStatus;
 import com.lti.models.Reimbursement;
 import com.lti.services.AuthServiceImpl;
 import com.lti.services.AuthServices;
@@ -60,8 +61,10 @@ public class ReimburseDelegate implements Delegatable{
 					pw.write(new ObjectMapper().writeValueAsString(reimburse));
 				}
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				List<Reimbursement> reimburses = rbs.GetReimbursesByStatus(pathNext);
+				try (PrintWriter pw = rs.getWriter()) {
+					pw.write(new ObjectMapper().writeValueAsString(reimburses));
+				}
 			}
 		} else {
 			String authToken = rq.getHeader("Authorization");
@@ -93,7 +96,20 @@ public class ReimburseDelegate implements Delegatable{
 
 	@Override
 	public void handlePut(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		System.out.println("In handlePut");
+		InputStream request = rq.getInputStream();
+		Reimbursement reimburse = new ObjectMapper().readValue(request, Reimbursement.class);
+		
+		if (!rbs.UpdateReimbursement(reimburse)) {
+			rs.sendError(400, "Unable to update Reimbursement.");
+		} else {
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(reimburse));
+			}
+			rs.setStatus(201);
+		}
+
+
+		
 	}
 
 	@Override

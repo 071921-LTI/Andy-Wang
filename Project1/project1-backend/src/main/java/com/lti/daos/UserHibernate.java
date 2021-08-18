@@ -77,7 +77,7 @@ public class UserHibernate implements UserDao {
 	public void updateUser(User user) {
 		try(Session s = HibernateUtil.getSessionFactory().openSession()){
 			Transaction tx = s.beginTransaction();
-			s.update(user);
+			s.merge(user);
 			tx.commit();
 		}
 	}

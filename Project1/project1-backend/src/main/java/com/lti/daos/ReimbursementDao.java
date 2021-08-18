@@ -12,6 +12,7 @@ public interface ReimbursementDao {
 	List<Reimbursement> getReimburse();
 	List<Reimbursement> getReimburseByStatus(ReimburseStatus status);
 	List<Reimbursement> getReimburseByType(ReimburseType type);
+	List<Reimbursement> getReimburseByUsername(String user);
 	Reimbursement addReimburse(Reimbursement reimburse);
 	void removeReimburse(Reimbursement reimburse);
 	void updateReimburse(Reimbursement reimburse);

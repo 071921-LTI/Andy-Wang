@@ -102,7 +102,7 @@ function submit(){
         reimbTypeId: reimbType
         
     });
- //   console.log(reimburse);
+     console.log(reimburse);
      xhr.send(reimburse);
 })
      

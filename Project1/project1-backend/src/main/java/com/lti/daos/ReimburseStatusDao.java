@@ -6,5 +6,6 @@ public interface ReimburseStatusDao {
 	ReimburseStatus addReimburseStatus(ReimburseStatus Status);
 	void deleteReimburseStatus(ReimburseStatus Status);
 	ReimburseStatus getReimburseStatusById(int id);
+	ReimburseStatus getReimburseStatusByString(String str);
 	
 }

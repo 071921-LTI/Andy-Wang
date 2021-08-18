@@ -111,6 +111,18 @@ public class UserDelegate implements Delegatable {
 	@Override
 	public void handlePut(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		System.out.println("In handlePut");
+		BufferedReader request = rq.getReader();
+		// Converts the request body into a User.class object
+		User user = new ObjectMapper().readValue(request, User.class);
+		System.out.println(user);
+		if (!us.updateUser(user)) {
+			rs.sendError(400, "Unable to update user.");
+		} else {
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(user));
+			}
+			rs.setStatus(201);
+		}
 
 	}
 

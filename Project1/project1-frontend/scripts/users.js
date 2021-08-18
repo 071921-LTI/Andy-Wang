@@ -20,7 +20,7 @@ function data(){
     if (userInput > 0){
         xhr.open("GET",apiURL + "/" + userInput);
     }else{
-        xhr.open("GET", "http://localhost:8080/project1/users");
+        xhr.open("GET", apiURL);
     }
 
     let authToken = sessionStorage.getItem("token");
@@ -32,8 +32,11 @@ function data(){
                 // Converting JSON to JS object
                 response = JSON.parse(response);
                 // Data processing behavior
-                populateData(response);
-
+                if (response == null){
+                    alert('User not found');
+                }else{
+                    populateData(response);
+                }
         } else if (xhr.readyState === 4){
             alert('Task unavailable needs manager privileges');
         }
