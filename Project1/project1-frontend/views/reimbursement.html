@@ -10,63 +10,60 @@
 </head>
 <body>
 
-	<div class="container align-content-center" id="registerForm">
+	<div class="container align-content-center" id="reimburseForm">
 			<form>
 				<div class="form-row justify-content-center">
 					<h1 class="display-4">Employee Reimbursment System</h1> 
 				</div>
 				<div id="bottomBorder"class="form-row justify-content-center">
-					<h1 class="display-4">Register</h1> 
+					<h1 class="display-4">Reimbursement Request</h1> 
 				</div>
 				<hr>
 				<br>
 				<div class="form-row justify-content-center">
-					<label>First Name:</label>
+					<label>Reimbursement Amount:</label>
 				</div>
 				<div class="form-row justify-content-center">
-					<input class="inputstyle" type="text" name="firstname" id="firstname">
-				</div>
-				<br> 
-				<div class="form-row justify-content-center">
-					<label>Last Name:</label>
-				</div>
-				<div class="form-row justify-content-center">
-					<input class="inputstyle" type="text" name="lastname" id="lastname">
-				</div>
-				<br>
-				<div class="form-row justify-content-center">
-					<label>Email:</label>
-				</div>
-				<div class="form-row justify-content-center">
-					<input class="inputstyle" type="text" name="email" id="email">
-				</div>
-				<br>
-				<div class="form-row justify-content-center">
-					<label>Username:</label>
-				</div>
-				<div class="form-row justify-content-center">
-					<input class="inputstyle" type="text" name="username" id="username">
+					<input class="inputstyle" type="number" name="amount" id="amount">
 				</div>
 				<br> 
 				<div class="form-row justify-content-center">
-					<label>Password:</label> 
+					<label>Description:</label>
 				</div>
 				<div class="form-row justify-content-center">
-					<input class="inputstyle" type="password" name="password" id="password">
+					<input class="inputstyle" type="text" name="description" id="description">
+				</div>
+				<br>
+				<div class="form-row justify-content-center">
+					<label>Receipt:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type= "file" name="receipt" id="receipt">
 				</div>
                 <br>
 				<div class="form-row justify-content-center">
-					<label>Role:</label> 
+					<label>Type:</label> 
 				</div>
 				<div class = "form-row justify-content-center">
-					<input class = "inputstyle" type="radio" id="employee" name="role" value="employee">
-					<label for="employee">Employee</label>
-					<input class="inputstyle" type="radio" id="manager" name="role" value="manager">
-					<label for="manager">Manager</label><br>
+					<input class = "inputstyle" type="radio" id="lodging" name="type" value="lodging">
+					<label for="employee">Lodging</label>
+					<input class="inputstyle" type="radio" id="travel" name="type" value="travel">
+					<label for="manager">Travel</label>
+                    <input class = "inputstyle" type="radio" id="food" name="type" value="food">
+					<label for="employee">Food</label>
+					<input class="inputstyle" type="radio" id="other" name="type" value="other">
+					<label for="manager">Other</label><br>
 				</div>
-				<br>
+                <br>
 				<div class="form-row justify-content-center">
-					<input class="btn btn-primary" type="button" value="Register"
+					<label>Submit Date:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type= "datetime-local" name="date" id="date">
+				</div>
+                <br>
+				<div class="form-row justify-content-center">
+					<input class="btn btn-primary" type="button" value="Submit"
 						id="submitButton">
 				</div>
 			</form>
@@ -74,6 +71,6 @@
 
             </section>
 	</div>
-	<script src="../scripts/register.js"></script>
+	<script src="../scripts/reimburse.js"></script>
 </body>
 </html>

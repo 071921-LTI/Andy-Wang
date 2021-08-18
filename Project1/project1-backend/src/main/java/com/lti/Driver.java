@@ -95,6 +95,6 @@ public class Driver {
 	}
 	public static void main(String[] args) {
 		//System.out.println(ud.getUsers());
-		System.out.println(ud.getUserByUsername("username"));
+		System.out.println(rd.getUserRoleById(2));
 	}
 }

@@ -11,7 +11,7 @@ function register(){
     let firstname = document.getElementById("firstname").value;
     let lastname = document.getElementById("lastname").value;
 
-    // console.log(username + password + role + email + firstname + lastname);
+    console.log(username + password + role + email + firstname + lastname);
 
     let xhr = new XMLHttpRequest();
     
@@ -25,7 +25,14 @@ function register(){
             console.log("Successful log in");
 
         } else if (xhr.readyState === 4){
-            console.log("Unable to register username or email taken");
+            let errorSection = document.getElementById('error');
+            // Resets the innerHTML before loading new data
+            errorSection.innerHTML ='';
+            let errorTag = document.createElement('h4');
+            errorTag.innerHTML = "Unable to register username or email taken";
+            errorTag.style.color = "red";
+            errorSection.appendChild(errorTag);
+           // alert("Unable to register username or email taken");
         }
     } 
 
@@ -46,7 +53,7 @@ function register(){
         role: role
     }
 
-    if (role == "employee"){
+    if (String(role.role) == "employee"){
         userrole.roleid = 2;
     }
 
