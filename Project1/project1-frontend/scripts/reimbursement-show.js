@@ -38,6 +38,7 @@ function data(){
                     alert('User not found');
                 }else{
                     populateData(response,dataInput);
+
                 }
         } else if (xhr.readyState === 4){
             alert('Task unavailable needs manager privileges');
@@ -52,7 +53,7 @@ function populateData(response, userInput){
     console.log(response);
     console.log(String(userInput) == "");
     let dataSection = document.getElementById('data');
-   
+    var table = document.createElement('table');
     // Resets the innerHTML before loading new data
     dataSection.innerHTML ='';
     if (response.length > 1){
@@ -64,5 +65,9 @@ function populateData(response, userInput){
              }
         }
         
+    }else{
+        let dataTag = document.createElement('tr');
+        dataTag.innerHTML = JSON.stringify(response);
+        dataSection.appendChild(dataTag);
     }
 }

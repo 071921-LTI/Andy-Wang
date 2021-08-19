@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Reimbursements</title>
+    </head>
+    <body>
+        <main>
+            Getting Reimbursement Info
+            <br>
+            <section id="data">
+            </section>
+            <div class = "form-row justify-content-center">
+                <br>
+                <label for="getData">Enter Reimbursment ID: </label>
+                <input type="text" id="dataInput"/><br>
+                <input class = "inputstyle" type="radio" id="resolve" name="reimburse" value="resolved">
+                <label for="resolve">Resolve</label>
+                <input class="inputstyle" type="radio" id="deny" name="reimburse" value="denied">
+                <label for="deny">Deny</label>
+                <button type="button" id="getData">Submit</button>
+            </div>
+            <section id="error">
+
+            </section>
+        </main>
+        <script src="../scripts/reimbursement-action.js"></script>
+    </body>
+</html>
