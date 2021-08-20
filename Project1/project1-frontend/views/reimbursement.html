@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Register Page</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="employeescreen.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reimbursement.html">Reimbursement request</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="users-update.html">Update Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+	<div class="container align-content-center" id="reimburseForm">
+			<form>
+				<div class="form-row justify-content-center">
+					<h1 class="display-4">Employee Reimbursment System</h1> 
+				</div>
+				<div id="bottomBorder"class="form-row justify-content-center">
+					<h1 class="display-4">Reimbursement Request</h1> 
+				</div>
+				<hr>
+				<br>
+				<div class="form-row justify-content-center">
+					<label>Reimbursement Amount:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type="number" name="amount" id="amount">
+				</div>
+				<br> 
+				<div class="form-row justify-content-center">
+					<label>Description:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<textarea class="inputstyle" type="text" name="description" id="description"></textarea>
+				</div>
+				<br>
+				<div class="form-row justify-content-center">
+					<label>Receipt:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type= "file" name="receipt" id="receipt">
+				</div>
+                <br>
+				<div class="form-row justify-content-center">
+					<label>Type:</label> 
+				</div>
+				<div class = "form-row justify-content-center">
+					<input class = "inputstyle" type="radio" id="lodging" name="type" value="lodging">
+					<label for="employee">Lodging</label>
+					<input class="inputstyle" type="radio" id="travel" name="type" value="travel">
+					<label for="manager">Travel</label>
+                    <input class = "inputstyle" type="radio" id="food" name="type" value="food">
+					<label for="employee">Food</label>
+					<input class="inputstyle" type="radio" id="other" name="type" value="other">
+					<label for="manager">Other</label><br>
+				</div>
+                <br>
+				<div class="form-row justify-content-center">
+					<label>Submit Date:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type= "datetime-local" name="date" id="date">
+				</div>
+                <br>
+				<div class="form-row justify-content-center">
+					<input class="btn btn-primary" type="button" value="Submit"
+						id="submitButton">
+				</div>
+			</form>
+			<section id="error">
+
+            </section>
+	</div>
+	<script src="../scripts/reimburse.js"></script>
+</body>
+</html>

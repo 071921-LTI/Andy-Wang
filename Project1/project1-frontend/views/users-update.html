@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Update Page</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="employeescreen.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reimbursement.html">Reimbursement request</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="users-update.html">Update Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+	<div class="container align-content-center" id="registerForm">
+			<form>
+				<div class="form-row justify-content-center">
+					<h1 class="display-4">Employee Reimbursment System</h1> 
+				</div>
+				<div id="bottomBorder"class="form-row justify-content-center">
+					<h1 class="display-4">Edit User Information</h1> 
+				</div>
+				<hr>
+				<br>
+				<div class="form-row justify-content-center">
+					<label>First Name:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type="text" name="firstname" id="firstname">
+				</div>
+				<br> 
+				<div class="form-row justify-content-center">
+					<label>Last Name:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type="text" name="lastname" id="lastname">
+				</div>
+				<br>
+				<div class="form-row justify-content-center">
+					<label>Email:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type="text" name="email" id="email">
+				</div>
+				<br>
+				<div class="form-row justify-content-center">
+					<label>Username:</label>
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type="text" name="username" id="username">
+				</div>
+				<br> 
+				<div class="form-row justify-content-center">
+					<label>Password:</label> 
+				</div>
+				<div class="form-row justify-content-center">
+					<input class="inputstyle" type="password" name="password" id="password">
+				</div>
+                <br>
+				<div class="form-row justify-content-center">
+					<label>Role:</label> 
+				</div>
+				<div class = "form-row justify-content-center">
+					<input class = "inputstyle" type="radio" id="employee" name="role" value="employee">
+					<label for="employee">Employee</label>
+					<input class="inputstyle" type="radio" id="manager" name="role" value="manager">
+					<label for="manager">Manager</label><br>
+				</div>
+				<br>
+				<div class="form-row justify-content-center">
+					<input class="btn btn-primary" type="button" value="Register"
+						id="submitButton">
+				</div>
+			</form>
+			<section id="error">
+
+            </section>
+	</div>
+	<script src="../scripts/user-update.js"></script>
+</body>
+</html>
