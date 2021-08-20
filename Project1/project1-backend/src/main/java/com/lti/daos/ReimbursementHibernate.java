@@ -90,6 +90,12 @@ public class ReimbursementHibernate implements ReimbursementDao {
 		}
 		return reimburses;
 	}
+
+	@Override
+	public List<Reimbursement> getReimburseByUsername(String user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 		
 
 }

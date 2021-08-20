@@ -1,4 +1,5 @@
 document.getElementById("submitButton").addEventListener("click", login);
+// document.getElementById("regButton").addEventListener("click", window.location.href = "register.html");
 
 function login(){
 
@@ -15,8 +16,11 @@ function login(){
             
             sessionStorage.setItem("token", authToken);
             console.log(authToken);
-            window.location.href="dashboard.html";
-           
+            if (String(authToken.split(":")[1]) == "manager"){
+                window.location.href="dashboard.html";
+            }else{
+                window.location.href="employeescreen.html";
+            }
 
         } else if (xhr.readyState === 4){
             alert('Unable to login invalid username or password');

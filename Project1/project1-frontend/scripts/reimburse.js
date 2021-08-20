@@ -20,6 +20,7 @@ function submit(){
         if(xhr.readyState === 4 && xhr.status >= 200  && xhr.status < 300){           
             var response = this.responseText;
         //    console.log(response);
+            alert("Reimbursement requested");
             console.log("Reimbursement requested");
 
         } else if (xhr.readyState === 4){
@@ -35,35 +36,6 @@ function submit(){
     } 
 
     xhr.setRequestHeader("Content-Type", "application/json");
-
-    //  let body = {
-    //     "reimbId": 1,
-    //     "reimbAmount": 1200.0,
-    //     "reimbSubmit": new Date(),
-    //     "reimbResolve": null,
-    //     "reimbDescript": null,
-    //     "reimbReceipt": null,
-    //     "reimbAuthor": {
-    //         "id": 2,
-    //         "firstname": "first",
-    //         "lastname": "last",
-    //         "username": "manager",
-    //         "password": "password1",
-    //         "email": "manager@email.com",
-    //         "roleid": {
-    //             "roleId": 1,
-    //             "role": "manager"
-    //         }
-    //     },
-    //     "reimbResolver": null,
-    //     "reimbStatusId": {
-    //         "statusId": 1,
-    //         "status": "pending"
-    //     },
-    //     "reimbTypeId": {
-    //         "typeId": 1,
-    //         "type": "lodging"
-    //     }
 
     let reimbAuthor = authToken.split(":")[0];
    // console.log(reimbAuthor)

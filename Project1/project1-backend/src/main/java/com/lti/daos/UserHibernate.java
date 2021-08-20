@@ -1,6 +1,7 @@
 package com.lti.daos;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.*;
 
@@ -34,7 +35,7 @@ public class UserHibernate implements UserDao {
 			Root<User> root = cq.from(User.class);
 			
 			Predicate predicateForName = cb.equal(root.get("username"), username);
-			
+
 			cq.select(root).where(predicateForName);
 			user = s.createQuery(cq).getSingleResult();
 		}

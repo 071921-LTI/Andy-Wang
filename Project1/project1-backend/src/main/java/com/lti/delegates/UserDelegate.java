@@ -10,6 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lti.exceptions.UserNotFoundException;
@@ -23,6 +26,7 @@ public class UserDelegate implements Delegatable {
 
 	UserService us = new UserServiceImpl();
 	AuthServices as = new AuthServiceImpl();
+	private static Logger log = LogManager.getRootLogger();
 	
 	@Override
 	public void process(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
@@ -44,6 +48,7 @@ public class UserDelegate implements Delegatable {
 			break;
 		default:
 			rs.sendError(405);
+			log.error("unable to process request");
 		}
 
 	}
@@ -78,7 +83,9 @@ public class UserDelegate implements Delegatable {
 				}
 				
 			} catch (UserNotFoundException e) {
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 				rs.sendError(404);
+				
 			}
 		} else {
 			String authToken = rq.getHeader("Authorization");
@@ -97,13 +104,13 @@ public class UserDelegate implements Delegatable {
 				}
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 			} catch (UserNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Exception was thrown: " + e.fillInStackTrace());
 			}
 		}
 	}

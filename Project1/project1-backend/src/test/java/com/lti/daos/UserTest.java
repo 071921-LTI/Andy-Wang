@@ -12,12 +12,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.h2.tools.RunScript;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
@@ -40,6 +46,7 @@ public class UserTest {
 	private static UserRoles employee = new UserRoles(2,"employee");
 	private static UserRoles manager = new UserRoles(1,"manager");
 	private static User empl = new User(2, "first", "last","username", "password", "employee@email.com", employee);
+	
 	private static User man = new User(1,"first", "last","manager", "password","manager@email.com", manager);
 	
 	public static SessionFactory getH2Connection() {
@@ -64,6 +71,15 @@ public class UserTest {
 		 */
 		mockedHibernateUtil = Mockito.mockStatic(HibernateUtil.class);
 		mockedHibernateUtil.when(HibernateUtil::getSessionFactory).then(I -> getH2Connection());
+		try(Session s = HibernateUtil.getSessionFactory().openSession()){
+			// Use the classname that been mapped, not the table name
+			Transaction tx = s.beginTransaction();		
+			s.save(manager);
+			s.save(employee);
+			s.save(man);	
+			s.save(empl);
+			tx.commit();	
+		}
 	}
 
 	@AfterAll
@@ -73,6 +89,7 @@ public class UserTest {
 		 */
 		mockedHibernateUtil.close();
 	}
+	@Order(1)
 	@Test
 	public void connectionTest() {
 		try {
@@ -83,53 +100,63 @@ public class UserTest {
 		}
 	}
 	
-	@Test
+	@Order(2)
+	@Test 
 	public void getByIdExists() throws UserNotFoundException {
-		
 		assertEquals(ud.getUserById(1), man);
 	}
 	
+	@Order(3)
 	@Test
 	public void getByIdDoesNotExists() {
 		assertEquals(ud.getUserById(100),null);
 	}
 	
+	@Order(4)
 	@Test
 	public void getByUsernameExists(){
-		assertEquals(ud.getUserByUsername("username"), empl);
+		
+		assertEquals(ud.getUserByUsername("manager"), man);
 	}
 	
+	@Order(5)
 	@Test
 	public void getByUsernameDoesNotExists() {
-		assertEquals(ud.getUserByUsername("Test"),null);
+		assertThrows(NoResultException.class, () -> ud.getUserByUsername("Test"));
 	}
 	
+	@Order(6)
 	@Test
 	public void addUserValid() {
 		
-		assertEquals(ud.addUser(new User("first1", "last1","manager1", "password1","manager1@email.com", manager)), 4);
+		assertEquals(ud.addUser(new User(10,"newfirst", "newlast","newusername", "newpass","newuser@email.com", employee)).getId(), 4);
 	}
 	
+	@Order(7)
 	@Test
 	public void addUserInvalid() {
-		assertEquals(ud.addUser(empl), -1);
+		assertThrows(ConstraintViolationException.class, () -> ud.addUser(empl));
 	}
 	
+	@Order(8)
 	@Test
 	public void getUsers() {
 	List<User> users = new ArrayList<>();
-//	users.add(man);
-//	users.add(empl);
+	users.add(man);
+	//users.add(empl);
+	users.add(new User(4,"newfirst", "newlast","newusername", "newpass","newuser@email.com", employee));
+	System.out.println(ud.getUsers());
 	assertEquals(ud.getUsers(), users);
 	}
+	@Order(9)
+	@Test
+	public void deleteUserValid() throws UserNotFoundException {
+		ud.deleteUser(empl);
+		assertEquals(ud.getUserById(empl.getId()),null);
+	}
 	
-//	@Test
-//	public void deleteUserValid() throws UserNotFoundException {
-//		assertEquals(ud.deleteUser( new User("Admin", "password", 1)), 1);
-//	}
-//	
-//	@Test
-//	public void deleteUserInvalid() throws UserNotFoundException {
-//		assertEquals(ud.deleteUser( new User("Adminnew", "password", 1)), 0);
-//	}
+	@Test
+	public void deleteUserInvalid() throws UserNotFoundException {
+		assertThrows(Exception.class, () -> ud.deleteUser(new User(10,manager)));
+	}
 }

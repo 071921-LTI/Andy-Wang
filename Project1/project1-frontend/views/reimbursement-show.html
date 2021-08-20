@@ -1,13 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link>
         <meta charset="UTF-8" />
         <title>Reimbursements</title>
+        <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
     </head>
     <body>
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="dashboard.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reimbursement-show.html">Reimbursements</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reimbursement-action.html">Reimbursement action</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="users.html">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
         <main>
-            Getting Reimbursement Info
-            <br>
+            <div class="form-row justify-content-center">
+            <h1 class="display-4">Getting Reimbursement Info </h1>
+            </div>
+            <hr>
             <div class = "form-row justify-content-center">
                 <input class = "inputstyle" type="radio" id="all" name="reimburse" value="all">
                 <label for="all">All</label>
@@ -17,12 +47,15 @@
                 <label for="resolve">Resolved</label>
                 <input class="inputstyle" type="radio" id="deny" name="reimburse" value="denied">
                 <label for="deny">Denied</label><br> 
+            </div>
+            <div class = "form-row justify-content-center">
                 <label for="getData">Filter by username</label>
                 <input type="text" id="dataInput"/>
                 <button type="button" id="getData">Get Data</button>
             </div>
+            <br>
             <section id="data">
-
+    
             </section>
         </main>
         <script src="../scripts/reimbursement-show.js"></script>

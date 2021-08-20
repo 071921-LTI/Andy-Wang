@@ -6,13 +6,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lti.exceptions.UserNotFoundException;
 import com.lti.models.User;
 import com.lti.services.AuthServices;
 import com.lti.services.AuthServiceImpl;
 
 public class AuthDelegate implements Delegatable {
-	
+	private static Logger log = LogManager.getRootLogger();
 	AuthServices as = new AuthServiceImpl();
 	@Override
 	public void process(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
@@ -35,6 +38,7 @@ public class AuthDelegate implements Delegatable {
 			break;
 		default:
 			rs.sendError(405);
+			log.error("unable to process request");
 		}
 	}
 
@@ -68,6 +72,7 @@ public class AuthDelegate implements Delegatable {
 	
 		} catch (UserNotFoundException e) {
 			rs.sendError(404);
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 		}
 	}
 

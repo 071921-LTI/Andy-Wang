@@ -44,23 +44,23 @@ create table if not exists ERS_REIMBURSEMENT(
 	REIMB_TYPE_ID int not null references ERS_REIMBURSEMENT_TYPE(REIMB_TYPE_ID)
 );
 
-insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('lodging');
-insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('travel');
-insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('food');
-insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('other');
-
-insert into ERS_USER_ROLES (user_role) values ('manager');
-insert into ERS_USER_ROLES (user_role) values ('employee');
-
-insert into ERS_REIMBURSEMENT_STATUS (reimb_status) values ('pending');
-insert into ERS_REIMBURSEMENT_STATUS (reimb_status) values ('resolved');
-
-insert into ers_users (ers_username, ers_password, user_first_name, user_last_name, user_email, user_role_id)
-values ('username', 'password', 'first', 'last', 'employee@email.com', 2);
-insert into ers_users (ers_username, ers_password, user_first_name, user_last_name, user_email, user_role_id)
-values ('manager', 'password', 'first', 'last', 'manager@email.com', 1);
-
-insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_author, reimb_status_id, reimb_type_id)
-values (100, current_timestamp, 2, 1, 1);
-insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_author, reimb_status_id, reimb_type_id)
-values (10, current_timestamp, 2, 1, 2);
+--insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('lodging');
+--insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('travel');
+--insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('food');
+--insert into ERS_REIMBURSEMENT_TYPE (reimb_type) values ('other');
+--
+--insert into ERS_USER_ROLES (user_role) values ('manager');
+--insert into ERS_USER_ROLES (user_role) values ('employee');
+--
+--insert into ERS_REIMBURSEMENT_STATUS (reimb_status) values ('pending');
+--insert into ERS_REIMBURSEMENT_STATUS (reimb_status) values ('resolved');
+--
+--insert into ers_users (ers_username, ers_password, user_first_name, user_last_name, user_email, user_role_id)
+--values ('username', 'password', 'first', 'last', 'employee@email.com', 2);
+--insert into ers_users (ers_username, ers_password, user_first_name, user_last_name, user_email, user_role_id)
+--values ('manager', 'password', 'first', 'last', 'manager@email.com', 1);
+--
+--insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_author, reimb_status_id, reimb_type_id)
+--values (100, current_timestamp, 2, 1, 1);
+--insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_author, reimb_status_id, reimb_type_id)
+--values (10, current_timestamp, 2, 1, 2);

@@ -9,11 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lti.exceptions.UserNotFoundException;
 import com.lti.models.ReimburseStatus;
 import com.lti.models.Reimbursement;
+import com.lti.models.User;
 import com.lti.services.AuthServiceImpl;
 import com.lti.services.AuthServices;
 import com.lti.services.ReimburseService;
@@ -25,6 +29,8 @@ public class ReimburseDelegate implements Delegatable{
 	UserService us = new UserServiceImpl();
 	AuthServices as = new AuthServiceImpl();
 	ReimburseService rbs = new ReimburseServiceImpl();
+	private static Logger log = LogManager.getRootLogger();
+	
 	@Override
 	public void process(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
 		// Retrieve GET, POST, PUT, DELETE...
@@ -67,46 +73,53 @@ public class ReimburseDelegate implements Delegatable{
 				}
 			}
 		} else {
-			String authToken = rq.getHeader("Authorization");
-			
-			try {
-				if(authToken == null || !as.authorize(authToken)) {
-					rs.sendError(403);
-				}else {
-					/*
-					 * for /users endpoint, returning all users
-					 */
-					List<Reimbursement> reimburses= rbs.GetAllReimbursements();
-					try (PrintWriter pw = rs.getWriter()) {
-						pw.write(new ObjectMapper().writeValueAsString(reimburses));
-					}
-				}
-			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UserNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			/*
+			 * for /users endpoint, returning all users
+			 */
+			List<Reimbursement> reimburses= rbs.GetAllReimbursements();
+			try (PrintWriter pw = rs.getWriter()) {
+				pw.write(new ObjectMapper().writeValueAsString(reimburses));
 			}
 		}
 	}
 
 	@Override
 	public void handlePut(HttpServletRequest rq, HttpServletResponse rs) throws ServletException, IOException {
-		InputStream request = rq.getInputStream();
-		Reimbursement reimburse = new ObjectMapper().readValue(request, Reimbursement.class);
+		String authToken = rq.getHeader("Authorization");
 		
-		if (!rbs.UpdateReimbursement(reimburse)) {
-			rs.sendError(400, "Unable to update Reimbursement.");
-		} else {
-			try (PrintWriter pw = rs.getWriter()) {
-				pw.write(new ObjectMapper().writeValueAsString(reimburse));
+		try {
+			if(authToken == null || !as.authorizeManager(authToken)) {
+				rs.sendError(403);
+			}else {
+				InputStream request = rq.getInputStream();
+				Reimbursement reimburse = new ObjectMapper().readValue(request, Reimbursement.class);
+				Reimbursement old = rbs.getReimburseById(reimburse.getReimbId());
+				old.setReimbResolve(reimburse.getReimbResolve());
+				old.setReimbResolver(reimburse.getReimbResolver());
+				old.setReimbStatusId(reimburse.getReimbStatusId());
+				if (!rbs.UpdateReimbursement(old)) {
+					rs.sendError(400, "Unable to update Reimbursement.");
+				} else {
+					try (PrintWriter pw = rs.getWriter()) {
+						pw.write(new ObjectMapper().writeValueAsString(reimburse));
+					}
+					rs.setStatus(201);
+				}	/*
+				 * for /users endpoint, returning all users
+				 */
+				List<User> users = us.getUsers();
+				try (PrintWriter pw = rs.getWriter()) {
+					pw.write(new ObjectMapper().writeValueAsString(users));
+				}
 			}
-			rs.setStatus(201);
+		} catch (JsonProcessingException e) {
+			log.error("Exception was thrown: " + e.fillInStackTrace());
+		} catch (UserNotFoundException e) {
+			log.error("Exception was thrown: " + e.fillInStackTrace());
+		} catch (IOException e) {
+			log.error("Exception was thrown: " + e.fillInStackTrace());
 		}
+	
 
 
 		
@@ -139,6 +152,7 @@ public class ReimburseDelegate implements Delegatable{
 		
 		if (!rbs.RemoveReimburse(reimburse)) {
 			rs.sendError(400, "Unable to delete Reimbursement.");
+			log.error("unable to delete Reimbursement");
 		} else {
 			try (PrintWriter pw = rs.getWriter()) {
 				pw.write(new ObjectMapper().writeValueAsString(reimburse));
