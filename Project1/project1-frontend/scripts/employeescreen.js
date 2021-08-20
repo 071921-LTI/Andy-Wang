@@ -142,8 +142,8 @@ async function getReimb(){
 
                     td1.innerHTML = data[i].reimbId;
                     td2.innerHTML = data[i].reimbAmount;
-                    td3.innerHTML = data[i].reimbSubmit;
-                    td4.innerHTML = data[i].reimbResolve;
+                    td3.innerHTML = new Date(data[i].reimbSubmit);
+                    td4.innerHTML = new Date(data[i].reimbResolve);
                     if (data[i].reimbDescript === null){
                         td5.innerHTML = "";
                     }else{
@@ -194,8 +194,8 @@ async function getReimb(){
 
                     td1.innerHTML = data.reimbId;
                     td2.innerHTML = data.reimbAmount;
-                    td3.innerHTML = data.reimbSubmit;
-                    td4.innerHTML = data.reimbResolve;
+                    td3.innerHTML = new Date(data.reimbSubmit);
+                    td4.innerHTML = new Date(data.reimbResolve);
                     if (data.reimbDescript === null){
                         td5.innerHTML = "";
                     }else{
